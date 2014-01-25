@@ -1,6 +1,6 @@
 # Introduction à Sass
 
-Sass est un préprocesseur CSS qui compile et transforme votre code Sass en code CSS. CSS est au départ un language simple et de nature pûrement déclarative. Sass vous permet d'étendre les possibilités du language CSS en utilisant des éements de programmation.
+[Sass](http://sass-lang.com/) est un préprocesseur CSS qui compile et transforme votre code Sass en code CSS. CSS est au départ un language simple et de nature pûrement déclarative. Sass vous permet d'étendre les possibilités du language CSS en utilisant des éléments de programmation.
 
 - variables, listes et fonctions
 - operations (mathématiques, couleurs)
@@ -24,7 +24,7 @@ A mon sens, les avantages de Sass sont:
 
 Nous verrons plus loin que, grâce à sa syntaxe `scss`, Sass est entièrement compatible avec le language CSS que vous conaissez déjà. Autrement dit, prenez un fichier CSS existant et changez son extension de fichier en `.scss` et vous écrivez du Sass. Cela rend cette technologie facile à apprendre et vous permet de l'adopter petit à petit dans vos projets.
 
-Sass dépend de Ruby. Cela ne veut pas pour autant dire que vous devez maîtriser ce language pour utiliser Sass. De la même mnière, même si Sass peut être entrèrement géré depuis votre terminal en lignes de commande, vous n'êtes pas obligés de suivre cette voie. Il existe de très bons programmes GUI vous permettant d'utiliser Sass sans pour autant devoir recourir à votre terminal.
+Sass dépend de [Ruby](https://www.ruby-lang.org/). Cela ne veut pas pour autant dire que vous devez maîtriser ce language pour utiliser Sass. De la même mnière, même si Sass peut être entrèrement géré depuis votre terminal en lignes de commande, vous n'êtes pas obligés de suivre cette voie. Il existe de très bons programmes GUI vous permettant d'utiliser Sass sans pour autant devoir recourir à votre terminal.
 
 ## Deux syntaxes
 
@@ -44,7 +44,7 @@ gem install sass
 
 ### Sass en ligne de commande
 
-Utiliser Sass en ligne de commande dans votre terminal est vraiment très simple. Vous n'aurez que quelques commande à retenir pour pouvoir travailler.
+Utiliser Sass en ligne de commande dans votre terminal est vraiment très simple. Vous n'aurez que quelques commandes à retenir pour pouvoir travailler.
 
 ```
 sass scss/screen.scss:css/screen.css
@@ -52,7 +52,7 @@ sass scss/screen.scss:css/screen.css
 
 Permet de compiler le fichier `scss/screen.scss` vers le fichier de destination `css/screen.css`.
 
-Lorsqu'on travaille sur un projet, il est intéressant de ne pas répéter cette opération à chaque modification. Sass est capable de détecter les changements faits dans un fichiers ou dans tous les fichiers d'un directory et de générer votre fichier CSS automatiquement lorsque des changements sont détectés.
+Lorsqu'on travaille sur un projet, il est intéressant de ne pas répéter cette opération à chaque modification. Sass est capable de détecter les changements faits dans un fichiers ou dans tous les fichiers d'un dossier et de générer votre fichier CSS automatiquement lorsque des changements sont détectés.
 
 ```
 sass --watch scss/screen.scss:css/screen.css
@@ -82,7 +82,7 @@ sass --watch scss/:css/ --style compressed
 
 ### Applications
 
-Si ces quelques ligne de commande vous rebuttent vraiment, vous pouvez également utiliser des applications GUI qui feront le travail pour vous. Il en existe beaucoup mais [Scout](http://mhs.github.io/scout-app/) (Mac et Windows) et [CodeKit](http://incident57.com/codekit/) (Mac) sont sans doute les plus connus.
+Si ces quelques ligne de commande vous rebuttent vraiment, vous pouvez également utiliser des applications GUI qui feront le travail pour vous. Il en existe beaucoup mais [Scout](http://mhs.github.io/scout-app/) (Mac et Windows) et [CodeKit](http://incident57.com/codekit/) (Mac) sont sans doute les plus connus, mais [il en existe d'autres](http://sass-lang.com/install). 
 
 ## Concepts
 
@@ -90,7 +90,7 @@ Maintenant que nous avons installé Sass et que nous avons un workflow, pratiquo
 
 ### Imports et partials
 
-la foncton `@import` vous permet d'importer des fichiers Sass les uns dans les autre et ainsi de structurer efficacement votre projet CSS. Cette fonctionnalité prend tout son sens lorsque ous travaillez sur des projets de grande taille et relativement complexe.
+la foncton `@import` vous permet d'importer des fichiers Sass les uns dans les autres et ainsi de structurer efficacement votre projet CSS. Cette fonctionnalité prend tout son sens lorsque ous travaillez sur des projets de grande taille et relativement complexe.
 
 Habituellement, vos fichiers sont structurés de telle manière que votre fichier .sass principal ne contienne que des directives `@import`. Vous pouvez préfixer le nom des fichiers importés avec "_" de manière à ce que Sass ne les compile pas directement.
 
@@ -292,7 +292,7 @@ qui peut être en plusieurs lignes et qui apparaîtra dans la CSS générée (y 
 
 ### Opérations
 
-Avec Sass, vous pouvez efectuer pas mal d'oparéations, dnt des opérations mathématiques et des opérations sur les couleurs.
+Avec Sass, vous pouvez effectuer pas mal d'opérations, dont des opérations mathématiques et des opérations sur les couleurs.
 
 #### Opérations mathématiques
 
@@ -349,7 +349,7 @@ $color-accent:#F16C32;
 }
 ```
 
-Il existe bien d'utres fonctions liées aux couleurs dans Sass à découvrir par vous même.
+Il existe [bien d'autres fonctions liées aux couleurs dans Sass](http://sass-lang.com/documentation/Sass/Script/Functions.html). N'hésitez pas à les découvrir par vous même.
 
 ### Fonctions
 
@@ -435,12 +435,6 @@ ce qui produirait en CSS
 
 La directive `@content` permet d'envoyer des blocs de règles CSS à une mixin pour qu'elles y soit incluses. Nous verrons plus loin un exemple avec des media queries.
 
-Voici néanmoins un exemple pour vous montrer comment cela fonctionne.
-
-```
-@
-```
-
 ### Extend et classes silencieuses
 
 Via la directive `@extend`, Sass vous permet d'étendre des classes existantes assez facilement.
@@ -508,7 +502,7 @@ cela produirait le code suivant
   clear: both; }
 ```
 
-Or nous n'avons pas besoin de la classe `.clearfix:after` dans notre CSS. Cette classe ne sert quà être étendue. Nous pouvons donc réécrire notre sass en utilisant une classe silencieuse, préfixée avec "%" plutôt que ".".
+Or nous n'avons pas besoin de la classe `.clearfix:after` dans notre CSS. Cette classe ne sert qu'à être étendue. Nous pouvons donc réécrire notre sass en utilisant une classe silencieuse, préfixée avec "%" plutôt que ".".
 
 ```
 %clearfix
@@ -548,7 +542,7 @@ Vous vous posez peut-être la question suivante: quand dois-je utiliser @extend 
 
 ### Media Queries avec la directive @media
 
-Sass permet également de gérer efficacement les media queries via la directive @media et un mécanisme nommé le @media bubbling. Ce mécanisme vous permet d'érire vos media queries imbriquées dans vos sélecteurs et Sass va se charger de les faire remonter (bubbling) pour vous dans le code CSS généré.
+Sass permet également de gérer efficacement les media queries via la directive `@media` et un mécanisme nommé "@media bubbling". Ce mécanisme vous permet d'érire vos media queries imbriquées dans vos sélecteurs et Sass va se charger de les faire remonter (bubbling) pour vous dans le code CSS généré.
 
 Si nous reprenons notre mixin dévelopées plus haut mais que nous voulons par exemple changer la taille de texte de nos titres suivant la taille d'écran de l'utilisateur, voici comment procéder.
 
@@ -567,11 +561,13 @@ Si nous reprenons notre mixin dévelopées plus haut mais que nous voulons par e
 Cela pose deux questions:
 
 1. tout cela n'est pas très DRY puisque nous devons réécrire nos media queries à chaque fois. Nous verrons dans la suite que nous pouvons créer une `mixin` pour éviter le problème et nous faciliter la vie.
-2. Est-ce que cela ne pose pas des problèmes de perfomance d'avoir toutes ces media queries identques séparées les unes des autres plutôt que de les grouper comme on le fait lorsqu'on écrit sa CSS à la main. La réponse est que cela à une incidence, mais qu'elle est réellement minime par rapport aux gains de temps que nous procure cette façon de travailler. Comme je sais que vous ne faites pas confiance à vos professeurs, [voici un est pour vous le prouver](http://aaronjensen.github.io/media_query_test/).
+2. Est-ce que cela ne pose pas des problèmes de perfomance d'avoir toutes ces media queries identques séparées les unes des autres plutôt que de les grouper comme on le fait lorsqu'on écrit sa CSS à la main. La réponse est que cela à une incidence, mais qu'elle est réellement minime par rapport aux gains de temps que nous procure cette façon de travailler.
+
+Comme je sais que vous ne faites pas toujours confiance à vos professeurs, [voici un est pour vous le prouver](http://aaronjensen.github.io/media_query_test/).
 
 ### Structures de contrôle
 
-Sass possède quelques structures de contrôle de base: @if, @else, @for, @each et @while. Plutôt que de les passer en revue, je vous invite à [consulter la documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#control_directives).
+Sass possède quelques structures de contrôle de base: `@if`, `@else`, `@for`, `@each` et `@while`. Plutôt que de les passer en revue, je vous invite à [consulter la documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#control_directives).
 
 Nous allons plutôt utiliser ces structures de contrôle pour créer une mixin complexe nous permettant de gérer efficacement nos media queries en Sass.
 
