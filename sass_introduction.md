@@ -653,29 +653,24 @@ $breakpoints-list:  "medium"    "(min-width:46.875em)",
 
 Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'objectif est rempli.
 
-```css
-@mixin mq($mq-name)
-{
+```scss
+@mixin mq($mq-name) {
     $breakpoint-defined: false;
 
-    @each $breakpoint in $breakpoints-list
-    {
+    @each $breakpoint in $breakpoints-list {
         $breakpoint-name:     nth($breakpoint, 1);
         $breakpoint-params:   nth($breakpoint, 2);
 
-        @if(unquote($mq-name) == $breakpoint-name)
-        {
+        @if(unquote($mq-name) == $breakpoint-name) {
             $breakpoint-defined: true;
 
-            @media screen and #{$breakpoint-params}
-            {
+            @media screen and #{$breakpoint-params} {
                 @content;
             }
         }
     }
 
-    @if ($breakpoint-defined == false)
-    {
+    @if ($breakpoint-defined == false) {
         @warn "Breakpoint \"#{$mq-name}\" is not defined in your $breakpoint-list";
     }
 }
@@ -687,4 +682,5 @@ Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'obj
 - [Sass Basics](http://sass-lang.com/guide): une bonne petite ressource pour commencer ou si vous avez besoin de vous rafraîchir les idées
 - Sass: [site officiel](http://sass-lang.com/) et [documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 - [The Sass way](http://thesassway.com/): un bon ensemble d'articles publiés sur Sass
+- [Une impressionnante liste de ressources](https://github.com/HugoGiraudel/awesome-sass) compilée par Hugo Giraudel
 - [Mes quelques ressources personnelles concernant Sass](https://pinboard.in/search/u:jeromecoupe/?query=sass) archivées sur Pinboard
