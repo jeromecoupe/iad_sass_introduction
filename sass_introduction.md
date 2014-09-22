@@ -218,12 +218,15 @@ Voici un exemple de nesting et d'utilisation de "&" dans Sass pour un menu de na
             background:#333;
             color:#fff;
         }
+    }
+}
 
-        &.current, &.current:hover
-        {
-            background:#F16C32;
-            color:#020202;
-        }
+.navbar__item--current
+{
+    > a, > a:hover
+    {
+      background:#F16C32;
+      color:#020202;
     }
 }
 ```
@@ -236,10 +239,12 @@ compilé cela donne
   list-style: none;
   margin: 0;
   padding: 0;
-  background: #000; }
+  background: #000;
+}
 
 .navbar__item {
-  display: inline-block; }
+  display: inline-block;
+}
 
   .navbar__item > a {
     display: block;
@@ -247,15 +252,18 @@ compilé cela donne
     background: #000;
     color: #ccc;
     text-decoration: none;
-    text-transform: uppercase; }
+    text-transform: uppercase;
+  }
 
     .navbar__item > a:hover {
       background: #333;
-      color: #fff; }
+      color: #fff;
+    }
 
-    .navbar__item > a.current, .navbar__item > a.current:hover {
-      background: #F16C32;
-      color: #020202; }
+  .navbar__item--current > a, .navbar__item--current > a:hover {
+    background:#F16C32;
+    color:#020202;
+  }
 ```
 
 L'opérateur "&" et le nesting peuvent également être utilisés pour créer facilement des fallbacks avec les classes générées par [Modernizr](http://modernizr.com/). Voici un exemple pour servir une image en `.svg` et un fallback en `.png` aux navigateurs ne supportant pas ce format.
@@ -656,7 +664,7 @@ Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'obj
 ```scss
 $breakpoints-list:  "medium"    "(min-width:46.875em)",
                     "large"     "(min-width:64em)";
-                    
+
 @mixin mq($mq-name)
 {
     $breakpoint-defined: false;
