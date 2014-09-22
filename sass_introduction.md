@@ -9,10 +9,10 @@
 Sass vous permet également de gérer plus efficacement votre code CSS et de ne pas vous répéter inutilement.
 
 - nesting
-- @mixins
-- @extend
-- @media
-- @import
+- `@mixins`
+- `@extend`
+- `@media`
+- `@import`
 
 Attention cependant, Sass n'est pas une technologie qui vous fera magiquement écrire du code CSS propre et optimisé. Le prérequis est de bien connaître CSS d'abord et d'être toujours attentif au code généré. Sass est un outil qui peut vous faciliter la vie mais ce qui importe en fin de compte c'est le code CSS généré.
 
@@ -98,7 +98,7 @@ Habituellement, vos fichiers sont structurés de telle manière que votre fichie
 
 Voici, par exemple, une structure possible pour vos fichiers Sass dans le cadre d'un projet plus complexe.
 
-```css
+```scss
 imports
 	- _normalize.scss
 	- _variables.scss
@@ -127,7 +127,7 @@ Les variables et les listes sont sans doute les fonctionnalités de Sass que vou
 
 Qui n'a jamais rêvé en CSS de pouvoir travailler avec des variables pour les couleurs de la charte graphique utilisée ? C'est désormais possible en Sass.
 
-```css
+```scss
 $color-txt:#020202;
 $color-bkg:#FEFBF6;
 $color-accent:#F16C32;
@@ -152,13 +152,13 @@ Les listes sont un bon moyen de créer des variables complexes en Sass, qui offr
 
 En gros vous pouvez créer des listes simples ou des listes imbriquées dans Sass. Vous pouvez utiliser ou des virgules ou des espaces comme séparateurs.
 
-```css
+```scss
 $fruits-espaces:    "pomme" "poire" "orange";
 $fruits-virgules:   "pomme", "poire", "orange";
 ```
 Pour des listes imbriquées, soit vous utilisez des séparateurs différents, soit vous pouvez utiliser des parenthèses.
 
-```css
+```scss
 /* Nested lists with braces and same separator */
 $list: (
         ("item-1.1", "item-1.2", "item-1.3"),
@@ -190,7 +190,7 @@ L'opérateur "&" est très utile dans ce contexte puisqu'il permet de référenc
 
 Voici un exemple de nesting et d'utilisation de "&" dans Sass pour un menu de navigation.
 
-```css
+```scss
 .navbar
 {
     width:100%;
@@ -260,7 +260,7 @@ compilé cela donne
 
 L'opérateur "&" et le nesting peuvent également être utilisés pour créer facilement des fallbacks avec les classes générées par [Modernizr](http://modernizr.com/). Voici un exemple pour servir une image en `.svg` et un fallback en `.png` aux navigateurs ne supportant pas ce format.
 
-```css
+```scss
 .icon--phone
 {
 	background:url(/img/sprite_icons.svg) 0 0 no-repeat;
@@ -278,21 +278,21 @@ Deux articles intéressants sur the Sass Way sur le sujet du nesting avec Sass: 
 
 A ce stade vous allez sans doute commencer à avoir besoin de commentaires. Voici les différents types de commentaires Sass:
 
-```css
+```scss
 /*
 commentaire
 qui peut être en plusieurs lignes et qui apparaîtra dans la CSS générée (sauf en style compressed)
 */
 ```
 
-```css
+```scss
 /*!
 commentaire
 qui peut être en plusieurs lignes et qui apparaîtra dans la CSS générée (y compris en style compressed)
 */
 ```
 
-```css
+```scss
 // commentaire en une ligne qui n'apparait pas dans la CSS générée
 ```
 
@@ -304,7 +304,7 @@ Avec Sass, vous pouvez effectuer pas mal d'opérations, dont des opérations mat
 
 Les [opérateurs mathématiques de base](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#number_operations) (`-`, `+`, `*` et `/`) sont disponibles. Si des unités sont présentes, Sass tentera de faire une conversion.
 
-```css
+```scss
 body
 {
 	margin:10px + 10px;
@@ -323,7 +323,7 @@ Voici une fonction très utile lorsque vous faites du responsive web design pour
 
 Admettons que vous deviez coder de façon fluide un design réalisé sur une grille de 960px, avec un contenu principal à 600px, un gutter de 60px et un contenu secondaire de 300px. Plus besoin de votre calculatrice, vous pouvez utiliser ces valeurs directement dans Sass.
 
-```css
+```scss
 .content__primary
 {
 	float:left;
@@ -341,7 +341,7 @@ Admettons que vous deviez coder de façon fluide un design réalisé sur une gri
 
 Une fois que vous avez établi vos variables de base pour vos couleurs, vous pouvez utilisez Sass pour en générer d'autres sur cette base.
 
-```css
+```scss
 $color-accent:#F16C32;
 
 .somediv
@@ -361,7 +361,7 @@ Il existe [bien d'autres fonctions liées aux couleurs dans Sass](http://sass-la
 
 Vous pouvez également écrire vos propres fonctions dans Sass. Un exemple type consiste à calculer une taille de police spécifiée en pixels en em, avec une taille de texte de base spécifiée à 16px.
 
-```css
+```scss
 @function calc-em($target-px, $context) {
 	@return ($target-px / $context) * 1em;
 }
@@ -384,7 +384,7 @@ ce qui donne
 
 Vous pouvez spécifier des arguments par défaut pour votre fonction en utilisant la notation suivante:
 
-```css
+```scss
 @function calc-em($target, $context:16px) {
 	@return ($target / $context) * 1em;
 }
@@ -397,7 +397,7 @@ Vous pouvez spécifier des arguments par défaut pour votre fonction en utilisan
 
 ou encore, en utilisant une variable:
 
-```css
+```scss
 $base-fontsize:16px;
 
 @function calc-em($target, $context:$base-fontsize) {
@@ -416,7 +416,7 @@ Les `@mixin` vous permettent simplement de réutiliser du code à différents en
 
 Un bon exemple pour une `@mixin` est par exemple le fait de spécifier une taille de police en `rem`. Certains navigateurs ne comprennent pas cette unité et il leur faut alors un fallback spécifié en `px`.
 
-```css
+```scss
 $base-fontsize:16px;
 
 @mixin fontsize-rem($pixels)
@@ -445,7 +445,7 @@ La directive `@content` permet d'envoyer des blocs de règles CSS à une `@mixin
 
 Via la directive `@extend`, Sass vous permet d'étendre des classes existantes assez facilement.
 
-```css
+```scss
 .btn
 {
 	display:inline-block;
@@ -478,7 +478,7 @@ Sass va générer la CSS suivante
 Voici un autre exemple pour vous parler des classes silencieuses. Lorsque vous utilisez une classe `clearfix`, vus ne souhaitez pas que cette classe apparaisse dans votre css en tant que telle. Seules les classes qui l'étendent vous intéressent. Dans ce cas, il suffit d'utiliser les classes silencieuses dans Sass.
 
 
-```css
+```scss
 .clearfix
 {
 	&:after
@@ -513,7 +513,7 @@ cela produirait le code suivant
 
 Or nous n'avons pas besoin de la classe `.clearfix:after` dans notre CSS. Cette classe ne sert qu'à être étendue. Nous pouvons donc réécrire notre sass en utilisant une classe silencieuse, préfixée avec "%" plutôt que ".".
 
-```css
+```scss
 %clearfix
 {
 	&:after
@@ -556,7 +556,7 @@ Sass permet également de gérer efficacement les media queries via la directive
 
 Si nous reprenons notre `@mixin` développée plus haut mais que nous voulons par exemple changer la taille de texte de nos titres suivant la taille d'écran de l'utilisateur, voici comment procéder.
 
-```css
+```scss
 .title-page
 {
     @include fontsize-rem(32px);
@@ -587,7 +587,7 @@ Notre problème est donc de créer une `@mixin` efficace pour éviter de devoir 
 
 Une première possibilité est de simplement metre en place des media queries "nommées" et d'utiliser la directive `@content`, ainsi que quelques conditions.
 
-```css
+```scss
 @mixin mq($breakpoint-name)
 {
     //medium screens: 750px
@@ -654,29 +654,31 @@ $breakpoints-list:  "medium"    "(min-width:46.875em)",
 Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'objectif est rempli.
 
 ```scss
-<<<<<<< HEAD
 $breakpoints-list:  "medium"    "(min-width:46.875em)",
                     "large"     "(min-width:64em)";
                     
-=======
->>>>>>> a0023c3b4412bf9cf263171ab184b8e80a6c6ce9
-@mixin mq($mq-name) {
+@mixin mq($mq-name)
+{
     $breakpoint-defined: false;
 
-    @each $breakpoint in $breakpoints-list {
+    @each $breakpoint in $breakpoints-list
+    {
         $breakpoint-name:     nth($breakpoint, 1);
         $breakpoint-params:   nth($breakpoint, 2);
 
-        @if(unquote($mq-name) == $breakpoint-name) {
+        @if(unquote($mq-name) == $breakpoint-name)
+        {
             $breakpoint-defined: true;
 
-            @media screen and #{$breakpoint-params} {
+            @media screen and #{$breakpoint-params}
+            {
                 @content;
             }
         }
     }
 
-    @if ($breakpoint-defined == false) {
+    @if ($breakpoint-defined == false)
+    {
         @warn "Breakpoint \"#{$mq-name}\" is not defined in your $breakpoint-list";
     }
 }
