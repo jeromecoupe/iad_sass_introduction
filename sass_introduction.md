@@ -1,8 +1,8 @@
 # Introduction à Sass
 
-[Sass](http://sass-lang.com/) est un préprocesseur CSS qui compile et transforme votre code Sass en code CSS. CSS est au départ un language simple et de nature pûrement déclarative. Sass vous permet d'étendre les possibilités du language CSS en utilisant des éléments de programmation.
+[Sass](http://sass-lang.com/) est un préprocesseur CSS qui compile et transforme votre code Sass en code CSS. CSS est au départ un language simple et de nature purement déclarative. Sass vous permet d'étendre les possibilités du language CSS en utilisant des éléments de programmation.
 
-- variables, listes et fonctions
+- variables, listes, maps et fonctions
 - operations (mathématiques, couleurs)
 - structures de controles (@if, @for, @each et @while)
 
@@ -22,9 +22,9 @@ A mon sens, les avantages de Sass sont:
 - Utiliser `@import` vous permet également de simplifier la maintenance de gros projets CSS en travaillant à l'aide de fichiers séparés et hiérarchisés
 - Sass vous permet de compresser automatiquement vos fichiers CSS en une seule ligne, les rendant plus légers à transférer vers les navigateurs de vos utilisateurs.
 
-Nous verrons plus loin que, grâce à sa syntaxe `scss`, Sass est entièrement compatible avec le language CSS que vous conaissez déjà. Autrement dit, prenez un fichier CSS existant et changez son extension de fichier en `.scss` et vous écrivez du Sass. Cela rend cette technologie facile à apprendre et vous permet de l'adopter petit à petit dans vos projets.
+Nous verrons plus loin que, grâce à sa syntaxe `scss`, Sass est entièrement compatible avec le language CSS que vous connaissez déjà. Autrement dit, prenez un fichier CSS existant et changez son extension de fichier en `.scss` et vous écrivez du Sass. Cela rend cette technologie facile à apprendre et vous permet de l'adopter petit à petit dans vos projets.
 
-Sass dépend de [Ruby](https://www.ruby-lang.org/). Cela ne veut pas pour autant dire que vous devez maîtriser ce language pour utiliser Sass. De la même mnière, même si Sass peut être entrèrement géré depuis votre terminal en lignes de commande, vous n'êtes pas obligés de suivre cette voie. Il existe de très bons programmes GUI vous permettant d'utiliser Sass sans pour autant devoir recourir à votre terminal.
+Sass dépend de [Ruby](https://www.ruby-lang.org/). Cela ne veut pas pour autant dire que vous devez maîtriser ce language pour utiliser Sass. De la même manière, même si Sass peut être entièrement géré depuis votre terminal en lignes de commande, vous n'êtes pas obligés de suivre cette voie. Il existe de très bons programmes GUI vous permettant d'utiliser Sass sans pour autant devoir recourir à votre terminal.
 
 ## Deux syntaxes
 
@@ -36,7 +36,7 @@ Nous utiliserons ici la syntaxe `scss` qui est compatible avec CSS3 et dont les 
 
 Sass dépend de Ruby, il vous faudra donc installer Ruby sur votre machine avant toute chose. Sur un mac, Ruby est déjà présent, tandis que sur Windows, il vous faudra [l'installer](http://rubyinstaller.org/downloads/).
 
-Il vous suffit enuite d'installer la "gem" sass pour être opérationnel.
+Il vous suffit ensuite d'installer la "gem" sass pour être opérationnel.
 
 ```
 gem install sass
@@ -64,14 +64,14 @@ ou
 sass --watch scss/:css/
 ```
 
-Vous remarquerez que les fichiers CSS ont générés avec un certain style d'output. Il en existe 4 dfférents avec sass: 
+Vous remarquerez que les fichiers CSS ont générés avec un certain style d'output. Il en existe 4 différents avec sass: 
 
 - Nested (default)
 - Expanded
 - Compact
 - Compressed
 
-Typiquement, les styles `nested` ou `expanded` sont utilisés en développement, alors que `compressed` est utilisé en production pour minifier vos fichiers CSS. Personellement, je n'utilise jamais le style `compact`.
+Typiquement, les styles `nested` ou `expanded` sont utilisés en développement, alors que `compressed` est utilisé en production pour minifier vos fichiers CSS. Personnellement, je n'utilise jamais le style `compact`.
 
 ```
 sass --watch scss/:css/ --style nested
@@ -82,7 +82,9 @@ sass --watch scss/:css/ --style compressed
 
 ### Applications
 
-Si ces quelques ligne de commande vous rebuttent vraiment, vous pouvez également utiliser des applications GUI qui feront le travail pour vous. Il en existe beaucoup mais [Scout](http://mhs.github.io/scout-app/) (Mac et Windows) et [CodeKit](http://incident57.com/codekit/) (Mac) sont sans doute les plus connus, mais [il en existe d'autres](http://sass-lang.com/install). 
+Si ces quelques ligne de commande vous rebutent vraiment, vous pouvez également utiliser des applications GUI qui feront le travail pour vous. Il en existe beaucoup mais [Scout](http://mhs.github.io/scout-app/) (Mac et Windows) et [CodeKit](http://incident57.com/codekit/) (Mac) sont sans doute les plus connus, mais [il en existe d'autres](http://sass-lang.com/install).
+
+Les outils de build ou task runners que sont [Grunt](http://gruntjs.com/) et [Gulp](http://gulpjs.com/) permettent également de compiler du code Sass en CSS.
 
 ## Concepts
 
@@ -90,13 +92,13 @@ Maintenant que nous avons installé Sass et que nous avons un workflow, pratiquo
 
 ### Imports et partials
 
-la foncton `@import` vous permet d'importer des fichiers Sass les uns dans les autres et ainsi de structurer efficacement votre projet CSS. Cette fonctionnalité prend tout son sens lorsque ous travaillez sur des projets de grande taille et relativement complexe.
+la fonction `@import` vous permet d'importer des fichiers Sass les uns dans les autres et ainsi de structurer efficacement votre projet CSS. Cette fonctionnalité prend tout son sens lorsque vous travaillez sur des projets de grande taille et relativement complexe.
 
 Habituellement, vos fichiers sont structurés de telle manière que votre fichier .sass principal ne contienne que des directives `@import`. Vous pouvez préfixer le nom des fichiers importés avec "_" de manière à ce que Sass ne les compile pas directement.
 
-Voici, par exemple, une sructure possible pour vos fichiers Sass dans le cadre d'un projet plus complexe.
+Voici, par exemple, une structure possible pour vos fichiers Sass dans le cadre d'un projet plus complexe.
 
-```
+```sass
 imports
 	- _normalize.scss
 	- _variables.scss
@@ -117,15 +119,15 @@ vendors
 screen.scss
 ```
 
-### Variables et Listes
+### Variables, Listes et maps
 
-Les variables et les listes sont sans doute les fonctionnalités de Sass que vous intégrerez le plus facilemnt à votre workflow existant.
+Les variables et les listes sont sans doute les fonctionnalités de Sass que vous intégrerez le plus facilement à votre workflow existant.
 
 #### Variables
 
 Qui n'a jamais rêvé en CSS de pouvoir travailler avec des variables pour les couleurs de la charte graphique utilisée ? C'est désormais possible en Sass.
 
-```
+```sass
 $color-txt:#020202;
 $color-bkg:#FEFBF6;
 $color-accent:#F16C32;
@@ -142,21 +144,21 @@ a
 }
 ```
 
-*Exercice: créer un fichier _variables.scss, définissez quelques variables pour les couleurs et importez-le dans votre fichier Sass principal. Tnat que vous y êtes, voyez comment vous pouvez appliquer cette logique pour d'autres choses (comme par exemple vos font-stacks).*
+*Exercice: créer un fichier _variables.scss, définissez quelques variables pour les couleurs et importez-le dans votre fichier Sass principal. Tant que vous y êtes, voyez comment vous pouvez appliquer cette logique pour d'autres choses (comme par exemple vos font-stacks).*
 
 #### Listes
 
-Les listes sont un bon moyen de créer des variables complexes en Sass, qui offre différents fonctons spécifiques aux listes pour les exploiter au mieux. Nous en verrons un exemple un peu plus loin.
+Les listes sont un bon moyen de créer des variables complexes en Sass, qui offre différents fonctions spécifiques aux listes pour les exploiter au mieux. Nous en verrons un exemple un peu plus loin.
 
 En gros vous pouvez créer des listes simples ou des listes imbriquées dans Sass. Vous pouvez utiliser ou des virgules ou des espaces comme séparateurs.
 
-```
-$fruits-espaces:		"pomme" "poire" "orange";
-$fruits-virgules:	"pomme", "poire", "orange";
+```sass
+$fruits-espaces:    "pomme" "poire" "orange";
+$fruits-virgules:   "pomme", "poire", "orange";
 ```
 Pour des listes imbriquées, soit vous utilisez des séparateurs différents, soit vous pouvez utiliser des parenthèses.
 
-```
+```sass
 /* Nested lists with braces and same separator */
 $list: ( 
         ("item-1.1", "item-1.2", "item-1.3"), 
@@ -170,9 +172,13 @@ $list: "item-1.1" "item-1.2" "item-1.3",
        "item-3.1" "item-3.2" "item-3.3";
 ```
 
-Hugo Giraudel propose [un excellent article d'introduction aux listes en Sass](http://hugogiraudel.com/2013/07/15/understanding-sass-lists/) si vous voulez en savoir plus sur les listes.
+Hugo Giraudel propose [un excellent article d'introduction aux listes en Sass](http://hugogiraudel.com/2013/07/15/understanding-sass-lists/) si vous voulez en savoir plus sur les listes. De manière générale, [le site de Hugo](http://hugogiraudel.com/) est une mine d'or en ce qui concerne Sass.
 
 Sass possède [de nombreuses fonctions](http://sass-lang.com/documentation/Sass/Script/Functions.html) vous permettant de manipuler des listes. Celles-ci sont similaires à ce que vous pouvez trouver dans d'autres languages de programmation.
+
+#### Maps
+
+@TODO
 
 ### Nesting et l'opérateur "&"
 
@@ -184,7 +190,7 @@ L'opérateur "&" est très utile dans ce contexte puisqu'il permet de référenc
 
 Voici un exemple de nesting et d'utilisation de "&" dans Sass pour un menu de navigation.
 
-```
+```sass
 .navbar
 {
     width:100%;
@@ -224,7 +230,7 @@ Voici un exemple de nesting et d'utilisation de "&" dans Sass pour un menu de na
 
 compilé cela donne
 
-```
+```css
 .navbar {
   width: 100%;
   list-style: none;
@@ -252,9 +258,9 @@ compilé cela donne
       color: #020202; }
 ```
 
-L'opérateur "&" et le nesting peuvent également êre utilisé pour créer facilement des fallbacks avec les classes générées par Modernizr. Voici un exemple pour servir une image en `.svg` et un fallback en `.png` aux navigateurs ne supportant pas ce format.
+L'opérateur "&" et le nesting peuvent également être utilisés pour créer facilement des fallbacks avec les classes générées par [Modernizr](http://modernizr.com/). Voici un exemple pour servir une image en `.svg` et un fallback en `.png` aux navigateurs ne supportant pas ce format.
 
-```
+```sass
 .icon--phone
 {
 	background:url(/img/sprite_icons.svg) 0 0 no-repeat;
@@ -266,27 +272,27 @@ L'opérateur "&" et le nesting peuvent également êre utilisé pour créer faci
 }
 ```
 
-Voici deux articles intéressants sur the Sass Way sur le sujet du nesting avec Sass: "[the inception rule](http://thesassway.com/beginner/the-inception-rule/)" et "[Avoid nested selectors for more modular CSS](http://thesassway.com/intermediate/avoid-nested-selectors-for-more-modular-css/)".
+Deux articles intéressants sur the Sass Way sur le sujet du nesting avec Sass: "[the inception rule](http://thesassway.com/beginner/the-inception-rule/)" et "[Avoid nested selectors for more modular CSS](http://thesassway.com/intermediate/avoid-nested-selectors-for-more-modular-css/)".
 
 ### Commentaires
 
 A ce stade vous allez sans doute commencer à avoir besoin de commentaires. Voici les différents types de commentaires Sass:
 
-```
+```sass
 /*
 commentaire
 qui peut être en plusieurs lignes et qui apparaîtra dans la CSS générée (sauf en style compressed)
 */
 ```
 
-```
+```sass
 /*!
 commentaire
 qui peut être en plusieurs lignes et qui apparaîtra dans la CSS générée (y compris en style compressed)
 */
 ```
 
-```
+```sass
 // commentaire en une ligne qui n'apparait pas dans la CSS générée 
 ```
 
@@ -298,7 +304,7 @@ Avec Sass, vous pouvez effectuer pas mal d'opérations, dont des opérations mat
 
 Les [opérateurs mathématiques de base](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#number_operations) (`-`, `+`, `*` et `/`) sont disponibles. Si des unités sont présentes, Sass tentera de faire une conversion.
 
-```
+```sass
 body
 {
 	margin:10px + 10px;
@@ -317,7 +323,7 @@ Voici une fonction très utile lorsque vous faites du responsive web design pour
 
 Admettons que vous deviez coder de façon fluide un design réalisé sur une grille de 960px, avec un contenu principal à 600px, un gutter de 60px et un contenu secondaire de 300px. Plus besoin de votre calculatrice, vous pouvez utiliser ces valeurs directement dans Sass.
 
-```
+```sass
 .content__primary
 {
 	float:left;
@@ -335,7 +341,7 @@ Admettons que vous deviez coder de façon fluide un design réalisé sur une gri
 
 Une fois que vous avez établi vos variables de base pour vos couleurs, vous pouvez utilisez Sass pour en générer d'autres sur cette base.
 
-```
+```sass
 $color-accent:#F16C32;
 
 .somediv
@@ -353,9 +359,9 @@ Il existe [bien d'autres fonctions liées aux couleurs dans Sass](http://sass-la
 
 ### Fonctions
 
-Vous pouvez également écrire vos prores fonctions dans Sass. Un exemple type consiste à calculer une taille de police spécifiée en pixels en em, avec une taille de texte de base spécifiée à 16px;
+Vous pouvez également écrire vos propres fonctions dans Sass. Un exemple type consiste à calculer une taille de police spécifiée en pixels en em, avec une taille de texte de base spécifiée à 16px.
 
-```
+```sass
 @function calc-em($target-px, $context) {
 	@return ($target-px / $context) * 1em;
 }
@@ -369,16 +375,16 @@ Vous pouvez également écrire vos prores fonctions dans Sass. Un exemple type c
 
 ce qui donne
 
-```
+```css
 .page
 {
 	padding:1.875em;
 }
 ```
 
-Vous pouvez spécifier des arguements par défaut pour votre fonction en utilisant la notation suivante:
+Vous pouvez spécifier des arguments par défaut pour votre fonction en utilisant la notation suivante:
 
-```
+```sass
 @function calc-em($target, $context:16px) {
 	@return ($target / $context) * 1em;
 }
@@ -391,7 +397,7 @@ Vous pouvez spécifier des arguements par défaut pour votre fonction en utilisa
 
 ou encore, en utilisant une variable:
 
-```
+```sass
 $base-fontsize:16px;
 
 @function calc-em($target, $context:$base-fontsize) {
@@ -406,11 +412,11 @@ $base-fontsize:16px;
 
 ### Mixins: @mixin et @content
 
-Les mixins vous permettent simplement de réutiliser du code à diférents endroits.
+Les `@mixin` vous permettent simplement de réutiliser du code à différents endroits.
 
-Un bon exemple pour une mixin est par exemple le fait de spécifier une taille de police en `rem`. Certains navigateurs ne comprennent pas cette unité et il leur faut alors un fallback spécifié en `px`.
+Un bon exemple pour une `@mixin` est par exemple le fait de spécifier une taille de police en `rem`. Certains navigateurs ne comprennent pas cette unité et il leur faut alors un fallback spécifié en `px`.
 
-```
+```sass
 $base-fontsize:16px;
 
 @mixin fontsize-rem($pixels)
@@ -433,13 +439,13 @@ ce qui produirait en CSS
   font-size: 3rem; }
 ```
 
-La directive `@content` permet d'envoyer des blocs de règles CSS à une mixin pour qu'elles y soit incluses. Nous verrons plus loin un exemple avec des media queries.
+La directive `@content` permet d'envoyer des blocs de règles CSS à une `@mixin` pour qu'elles y soit incluses. Nous verrons plus loin un exemple avec des media queries.
 
 ### Extend et classes silencieuses
 
 Via la directive `@extend`, Sass vous permet d'étendre des classes existantes assez facilement.
 
-```
+```sass
 .btn
 {
 	display:inline-block;
@@ -457,20 +463,22 @@ Via la directive `@extend`, Sass vous permet d'étendre des classes existantes a
 
 Sass va générer la CSS suivante
 
-```
+```css
 .btn, .btn--alert {
   padding: 1em;
   text-align: center;
-  text-transform: uppercase;}
+  text-transform: uppercase;
+}
 
 .btn--alert {
-  background: #9c3; }
+  background: #9c3;
+}
 ```
 
 Voici un autre exemple pour vous parler des classes silencieuses. Lorsque vous utilisez une classe `clearfix`, vus ne souhaitez pas que cette classe apparaisse dans votre css en tant que telle. Seules les classes qui l'étendent vous intéressent. Dans ce cas, il suffit d'utiliser les classes silencieuses dans Sass.
 
 
-```
+```sass
 .clearfix
 {
 	&:after
@@ -495,16 +503,17 @@ Voici un autre exemple pour vous parler des classes silencieuses. Lorsque vous u
 
 cela produirait le code suivant
 
-```
+```css
 .clearfix:after, .navbar:after, .content:after {
   content: "";
   display: table;
-  clear: both; }
+  clear: both;
+}
 ```
 
 Or nous n'avons pas besoin de la classe `.clearfix:after` dans notre CSS. Cette classe ne sert qu'à être étendue. Nous pouvons donc réécrire notre sass en utilisant une classe silencieuse, préfixée avec "%" plutôt que ".".
 
-```
+```sass
 %clearfix
 {
 	&:after
@@ -529,24 +538,25 @@ Or nous n'avons pas besoin de la classe `.clearfix:after` dans notre CSS. Cette 
 
 ce qui produira
 
-```
+```css
 .navbar:after, .content:after {
   content: "";
   display: table;
-  clear: both; }
+  clear: both;
+}
 ```
 
 ### @extend ou @mixin ?
 
-Vous vous posez peut-être la question suivante: quand dois-je utiliser @extend et quand dois-je utiliser @mixin. La règle de base est assez simple: si vous avez besoin de paramètres, utilisez @mixin. Si ce n'est pas le cas, utilisez @extend
+Vous vous posez peut-être la question suivante: quand dois-je utiliser `@extend` et quand dois-je utiliser `@mixin`. La règle de base est assez simple: si vous avez besoin de paramètres, utilisez `@mixin`. Si ce n'est pas le cas, utilisez `@extend`. Sachez aussi que `@extend` ne répétant pas le code de vos déclaration CSS, vous produirez un code plus DRY qu'avec `@mixin`.
 
 ### Media Queries avec la directive @media
 
-Sass permet également de gérer efficacement les media queries via la directive `@media` et un mécanisme nommé "@media bubbling". Ce mécanisme vous permet d'érire vos media queries imbriquées dans vos sélecteurs et Sass va se charger de les faire remonter (bubbling) pour vous dans le code CSS généré.
+Sass permet également de gérer efficacement les media queries via la directive `@media` et un mécanisme nommé "@media bubbling". Ce mécanisme vous permet d'écrire vos media queries imbriquées dans vos sélecteurs et Sass va se charger de les faire remonter (bubbling) pour vous dans le code CSS généré.
 
-Si nous reprenons notre mixin dévelopées plus haut mais que nous voulons par exemple changer la taille de texte de nos titres suivant la taille d'écran de l'utilisateur, voici comment procéder.
+Si nous reprenons notre `@mixin` développée plus haut mais que nous voulons par exemple changer la taille de texte de nos titres suivant la taille d'écran de l'utilisateur, voici comment procéder.
 
-```
+```sass
 .title-page
 {
     @include fontsize-rem(32px);
@@ -561,7 +571,7 @@ Si nous reprenons notre mixin dévelopées plus haut mais que nous voulons par e
 Cela pose deux questions:
 
 1. tout cela n'est pas très DRY puisque nous devons réécrire nos media queries à chaque fois. Nous verrons dans la suite que nous pouvons créer une `mixin` pour éviter le problème et nous faciliter la vie.
-2. Est-ce que cela ne pose pas des problèmes de perfomance d'avoir toutes ces media queries identques séparées les unes des autres plutôt que de les grouper comme on le fait lorsqu'on écrit sa CSS à la main. La réponse est que cela à une incidence, mais qu'elle est réellement minime par rapport aux gains de temps que nous procure cette façon de travailler.
+2. Est-ce que cela ne pose pas des problèmes de performance d'avoir toutes ces media queries identiques séparées les unes des autres plutôt que de les grouper comme on le fait lorsqu'on écrit sa CSS à la main. La réponse est que cela à une incidence, mais qu'elle est réellement minime par rapport aux gains de temps que nous procure cette façon de travailler.
 
 Comme je sais que vous ne faites pas toujours confiance à vos professeurs, [voici un est pour vous le prouver](http://aaronjensen.github.io/media_query_test/).
 
@@ -569,15 +579,15 @@ Comme je sais que vous ne faites pas toujours confiance à vos professeurs, [voi
 
 Sass possède quelques structures de contrôle de base: `@if`, `@else`, `@for`, `@each` et `@while`. Plutôt que de les passer en revue, je vous invite à [consulter la documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#control_directives).
 
-Nous allons plutôt utiliser ces structures de contrôle pour créer une mixin complexe nous permettant de gérer efficacement nos media queries en Sass.
+Nous allons plutôt utiliser ces structures de contrôle pour créer une `@mixin` complexe nous permettant de gérer efficacement nos media queries en Sass.
 
-### Mixins complexes, directive @content, listes, structures de contrôle et directve @warn
+### Mixins complexes, directive @content, listes, structures de contrôle et directive @warn
 
-Notre problème est donc de créer une mixin efficace pour éviter de devoir répéter nos media queries à chaque fois dans notre code.
+Notre problème est donc de créer une `@mixin` efficace pour éviter de devoir répéter nos media queries à chaque fois dans notre code.
 
 Une première possibilité est de simplement metre en place des media queries "nommées" et d'utiliser la directive `@content`, ainsi que quelques conditions.
 
-```
+```sass
 @mixin mq($breakpoint-name)
 {
     //medium screens: 750px
@@ -603,9 +613,9 @@ Une première possibilité est de simplement metre en place des media queries "n
 }
 ```
 
-Cela nous permet d'écrire les media queries de la façon suivante dans nos fichiers `.scss`. Les règles CSS passées à la mixin sont placées dans les blocs media grâce à la directive `@content`.
+Cela nous permet d'écrire les media queries de la façon suivante dans nos fichiers `.scss`. Les règles CSS passées à la `@mixin` sont placées dans les blocs media grâce à la directive `@content`.
 
-```
+```sass
 .title-page
 {
     font-size:2em;
@@ -617,9 +627,9 @@ Cela nous permet d'écrire les media queries de la façon suivante dans nos fich
 }
 ```
 
-Cependant, notre mixin n'est pas encore très DRY, il y a beaucoup de code répété et ajouter une media query supplémentaire est encore assez complexe. Nous pouvons faire mieux en utilisant les listes en Sass.
+Cependant, notre `@mixin` n'est pas encore très DRY, il y a beaucoup de code répété et ajouter une media query supplémentaire est encore assez complexe. Nous pouvons faire mieux en utilisant les listes en Sass.
 
-```
+```sass
 $breakpoints-list:  "medium"    "(min-width:46.875em)",
                     "large"     "(min-width:64em)";
 
@@ -643,7 +653,7 @@ $breakpoints-list:  "medium"    "(min-width:46.875em)",
 
 Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'objectif est rempli.
 
-```
+```sass
 @mixin mq($mq-name)
 {
     $breakpoint-defined: false;
@@ -673,7 +683,8 @@ Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'obj
 
 ## Ressources
 
-- "[Why Sass?](http://alistapart.com/article/why-sass)" un bon artcile de Dan Cederholm sur A List Apart. Son live "[Sass for Web Designers](http://www.abookapart.com/products/sass-for-web-designers)" est également disponible via A Book Apart
+- "[Why Sass?](http://alistapart.com/article/why-sass)" un bon article de Dan Cederholm sur A List Apart. Son live "[Sass for Web Designers](http://www.abookapart.com/products/sass-for-web-designers)" est également disponible via A Book Apart
 - [Sass Basics](http://sass-lang.com/guide): une bonne petite ressource pour commencer ou si vous avez besoin de vous rafraîchir les idées
 - Sass: [site officiel](http://sass-lang.com/) et [documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 - [The Sass way](http://thesassway.com/): un bon ensemble d'articles publiés sur Sass
+- [Mes quelques ressources personnelles concernant Sass](https://pinboard.in/search/u:jeromecoupe/?query=sass) archivées sur Pinboard
