@@ -654,9 +654,12 @@ $breakpoints-list:  "medium"    "(min-width:46.875em)",
 Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'objectif est rempli.
 
 ```scss
+<<<<<<< HEAD
 $breakpoints-list:  "medium"    "(min-width:46.875em)",
                     "large"     "(min-width:64em)";
                     
+=======
+>>>>>>> a0023c3b4412bf9cf263171ab184b8e80a6c6ce9
 @mixin mq($mq-name) {
     $breakpoint-defined: false;
 
