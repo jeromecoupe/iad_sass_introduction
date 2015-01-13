@@ -699,4 +699,5 @@ $breakpoints-list:  "medium"    "(min-width:46.875em)",
 - Sass: [site officiel](http://sass-lang.com/) et [documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 - [The Sass way](http://thesassway.com/): un bon ensemble d'articles publiés sur Sass
 - [Une impressionnante liste de ressources](https://github.com/HugoGiraudel/awesome-sass) compilée par Hugo Giraudel
+- [Sass guidelines](http://sass-guidelin.es/) Bonnes pratiques et super infos sur la structuration des projets Sass. Merci Hugo Giraudel!
 - [Mes quelques ressources personnelles concernant Sass](https://pinboard.in/search/u:jeromecoupe/?query=sass) archivées sur Pinboard

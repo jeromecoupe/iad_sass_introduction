@@ -1,4 +1,4 @@
-# Cours IAD: Introduction à Craft
+# Cours IAD: Introduction à Sass
 
 Ce cours est une introduction à [Sass](http://sass-lang.com/).
 
