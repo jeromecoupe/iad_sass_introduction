@@ -97,7 +97,7 @@ Maintenant que nous avons installé Sass et que nous avons un workflow, pratiquo
 
 Habituellement, vos fichiers sont structurés de telle manière que votre fichier Sass principal ne contienne que des directives `@import`. Vous pouvez préfixer le nom des fichiers importés avec `_` de manière à ce que Sass ne les compile pas directement.
 
-Voici, par exemple, une structure possible pour vos fichiers Sass dans le cadre d'un projet plus complexe.
+Voici, par exemple, une structure possible pour vos fichiers Sass dans le cadre d'un projet plus complexe. Un [boiletrplate et des expications détaillées sont disponibles](http://sass-guidelin.es/#the-7-1-pattern) sur le site Sass Guildelines.
 
 ```
 base/
@@ -178,6 +178,7 @@ En gros vous pouvez créer des listes simples ou des listes imbriquées dans Sas
 ```scss
 $fruits-espaces:    "pomme" "poire" "orange";
 $fruits-virgules:   "pomme", "poire", "orange";
+$fruits-ideal:      ("pomme", "poire", "orange");
 ```
 Pour des listes imbriquées, soit vous utilisez des séparateurs différents, soit vous pouvez utiliser des parenthèses.
 
@@ -361,7 +362,7 @@ Avec Sass, vous pouvez effectuer pas mal d'opérations, dont des opérations mat
 
 Les [opérateurs mathématiques de base](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#number_operations) (`-`, `+`, `*` et `/`) sont disponibles.
 
-Pour éviter les problèmes, travaillez toujours avec des nombres sans unité et faites intervenir les unités en dernier lieu via une simple multiplication ou
+Pour éviter les problèmes, travaillez toujours avec des nombres sans unités et faites intervenir les unités en dernier lieu via une simple multiplication ou
 
 ```scss
 // add a unit
