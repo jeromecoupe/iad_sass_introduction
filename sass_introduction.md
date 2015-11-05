@@ -332,6 +332,8 @@ L'opérateur "&" et le nesting peuvent également être utilisés pour créer fa
 
 Deux articles intéressants concernant le nesting avec Sass: "[the inception rule](http://thesassway.com/beginner/the-inception-rule/)" et "[Avoid nested selectors for more modular CSS](http://thesassway.com/intermediate/avoid-nested-selectors-for-more-modular-css/)".
 
+TLDR: nestez le moins possible!
+
 ### Commentaires
 
 A ce stade vous allez sans doute commencer à avoir besoin de commentaires. Voici les différents types de commentaires existants dans Sass:
@@ -675,14 +677,14 @@ Cependant, notre `@mixin` n'est pas encore très DRY. Beaucoup de code est rép�
 $breakpoints: (
 	medium: "(min-width:46.875em)",
   large: "(min-width:64em)"
-);
+) !default;
 
 @mixin mq($breakpoint-name)
 {
 	$breakpoint-name: unquote($breakpoint-name);
 	@if map-has-key($breakpoints, $breakpoint-name)
 	{
-		$query: @map-get($breakpoints, $breakpoint-name)
+		$query: map-get($breakpoints, $breakpoint-name);
 		@media all and #{$query}
 		{
 			@content;
@@ -697,23 +699,225 @@ Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'obj
 $breakpoints: (
 	medium: "(min-width:46.875em)",
   large: "(min-width:64em)"
-);
+) !default;
 
 @mixin mq($breakpoint-name)
 {
 	$breakpoint-name: unquote($breakpoint-name);
 	@if map-has-key($breakpoints, $breakpoint-name)
 	{
-		$query: @map-get($breakpoints, $breakpoint-name)
+		$query: map-get($breakpoints, $breakpoint-name);
 		@media all and #{$query}
 		{
 			@content;
 		}
 	}
-	else
+	@else
 	{
 		@warn "#{$mq-name} is not a value defined in the 'breakpoints' map.";
 	}
+}
+```
+
+### Mixins complexes: création d'un système de grille
+
+Le but est ici de s'aider de Sass pour créer un système de grille en inline-block que nous pourrions réutiliser de projets en projets. Pour se faire nous devons prendre en compte les étapes suivantes:
+
+1. créer les variables nécessaires: nombre de colonnes (number), taille des gutters (string) et définition des media queries (nested maps).
+2. créer des classes de grilles par défaut.
+3. pour chaque media query, créer des classes de grilles correspondantes et namespacées à l'aide des noms donnés à nos breakpoints.
+
+Ce que nous voulons générer en CSS, ce sont les classes suivantes:
+
+```scss
+.grid
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	padding-left: -30px;
+}
+
+.grid__unit
+{
+	box-sizing: border-box;
+	width: 100%;
+	display: inline-block;
+	vertical-align: top;
+	padding-left: 30px;
+}
+
+/* base: various widths */
+.grid__unit--1of12
+{
+	width: 8.333333333%;
+}
+
+.grid__unit--2of12
+{
+	width: 16.666666667%;
+}
+
+... [more classes] ...
+
+.grid__unit--12of12
+{
+	width: 100%;
+}
+
+/* medium: various widths */
+@media all and (min-width: 46.875em)
+{
+	.grid__unit--medium-1of12
+	{
+		width: 8.333333333%;
+	}
+
+	.grid__unit--medium-2of12
+	{
+		width: 16.666666667%;
+	}
+
+	... [more classes] ...
+
+	.grid__unit--medium-12of12
+	{
+		width: 100%;
+	}
+}
+
+/* large: various widths */
+@media all and (min-width: 64em)
+{
+	.grid__unit--large-1of12
+	{
+		width: 8.333333333%;
+	}
+
+	.grid__unit--large-2of12
+	{
+		width: 16.666666667%;
+	}
+
+	... [more classes] ...
+
+	.grid__unit--large-12of12
+	{
+		width: 100%;
+	}
+}
+```
+
+Pour réaliser cela en Sass, commençons par créer nos variables. Nous allons utiliser le flag `!default` pour permettre de les surdéterminer si besoin est dans un fichier de variables centralisé.
+
+```scss
+// variables de grille
+$grid-columns: 12 !default;
+$grid-gutter: 30px !default;
+
+// breakpoints en maps imbriquées
+$breakpoints: (
+  "medium": (
+    "media": "all",
+    "query": "(min-width: 46.875em)",
+  ),
+  "large": (
+    "media": "all",
+    "query": "(min-width: 64em)",
+  ),
+  "xlarge": (
+    "media": "all",
+    "query": "(min-width: 71.25em)",
+  )
+) !default;
+```
+
+Nous allons ensuite créer nos classes de base, sans tenir compte de media queries.
+
+```scss
+// variables de grille
+$grid-columns: 12 !default;
+$grid-gutter: 30px !default;
+
+// breakpoints en maps imbriquées
+$breakpoints: (
+  "medium": (
+    "media": "all",
+    "query": "(min-width: 46.875em)",
+  ),
+  "large": (
+    "media": "all",
+    "query": "(min-width: 64em)",
+  ),
+  "xlarge": (
+    "media": "all",
+    "query": "(min-width: 71.25em)",
+  )
+) !default;
+
+// classes de grille par défaut: pas de media queries
+@for $i from 1 through $grid-columns
+{
+  .grid__unit--#{$i}of#{$grid-columns}
+  {
+    width: percentage( $i / $grid-columns );
+  }
+}
+```
+
+Nous allons ensuite parcourir notre map `$breakpoints` et, pour chaque breakpoint, nous allons écrire des classes namespacées dans une media query correspondante.
+
+```scss
+// variables de grille
+$grid-columns: 12 !default;
+$grid-gutter: 30px !default;
+
+// breakpoints en maps imbriquées
+$breakpoints: (
+  "medium": (
+    "media": "all",
+    "query": "(min-width: 46.875em)",
+  ),
+  "large": (
+    "media": "all",
+    "query": "(min-width: 64em)",
+  ),
+  "xlarge": (
+    "media": "all",
+    "query": "(min-width: 71.25em)",
+  )
+) !default;
+
+// classes de grille par défaut: pas de media queries
+@for $i from 1 through $grid-columns
+{
+  .grid__unit--#{$i}of#{$grid-columns}
+  {
+    width: percentage( $i / $grid-columns );
+  }
+}
+
+// classes namespacées pour chaque media queries
+@each $name, $values in $breakpoints
+{
+  // récupérer les valeurs des maps nestées
+  $mq-name: $name;
+  $mq-media: map-get($values, media);
+  $mq-query: map-get($values, query);
+
+  // écrire une media query pour chaque breakpoint
+  @media #{$mq-media} and #{$mq-query}
+  {
+    // loop de 1 à x colonnes
+    @for $i from 1 through $grid-columns
+    {
+      // écrire les classes de grille namespacées dans chaque media query
+      .grid__unit--#{$mq-name}-#{$i}of#{$grid-columns}
+      {
+        width: percentage( $i / $grid-columns );
+      }
+    }
+  }
 }
 ```
 
