@@ -332,7 +332,7 @@ L'opérateur "&" et le nesting peuvent également être utilisés pour créer fa
 
 Deux articles intéressants concernant le nesting avec Sass: "[the inception rule](http://thesassway.com/beginner/the-inception-rule/)" et "[Avoid nested selectors for more modular CSS](http://thesassway.com/intermediate/avoid-nested-selectors-for-more-modular-css/)".
 
-TLDR: nestez le moins possible!
+**TL;DR** nestez le moins possible!
 
 ### Commentaires
 
@@ -552,7 +552,7 @@ Très souvent, `@extend` est utilisé en combinaison avec ce que l'on appelle le
 }
 ```
 
-Sass va générer la CSS suivante
+Sass va générer la CSS suivante:
 
 ```css
 .btn--alert, .btn--success {
@@ -721,7 +721,7 @@ $breakpoints: (
 
 ### Mixins complexes: création d'un système de grille
 
-Le but est ici de s'aider de Sass pour créer un système de grille en inline-block que nous pourrions réutiliser de projets en projets. Pour se faire nous devons prendre en compte les étapes suivantes:
+Le but est ici de s'aider de Sass pour créer un système de grille en inline-block que nous pourrions réutiliser de projet en projet. Pour se faire nous devons prendre en compte les étapes suivantes:
 
 1. créer les variables nécessaires: nombre de colonnes (number), taille des gutters (string) et définition des media queries (nested maps).
 2. créer des classes de grilles par défaut.
