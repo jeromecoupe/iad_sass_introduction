@@ -364,7 +364,7 @@ Avec Sass, vous pouvez effectuer pas mal d'opérations, dont des opérations mat
 
 Les [opérateurs mathématiques de base](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#number_operations) (`-`, `+`, `*` et `/`) sont disponibles.
 
-Pour éviter les problèmes, travaillez toujours avec des nombres sans unités et faites intervenir les unités en dernier lieu via une simple multiplication ou
+Pour éviter les problèmes, travaillez toujours avec des nombres sans unités et faites intervenir les unités en dernier lieu via une simple multiplication. Pour supprimer une unité, utilisez une division par une unité identique.
 
 ```scss
 // add a unit
@@ -421,6 +421,21 @@ $color-accent: #F16C32;
 .someotherdiv
 {
 	background: darken($color-accent, 20%);
+}
+```
+
+
+```scss
+$color-accent: #F16C32;
+
+.somediv
+{
+	background: mix(#000, $color-accent, 10%);
+}
+
+.someotherdiv
+{
+	background: mix(#fff, $color-accent, 20%);
 }
 ```
 
