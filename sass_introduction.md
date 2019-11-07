@@ -73,10 +73,10 @@ Vous remarquerez que les fichiers CSS sont générés avec un certain style d'ou
 Typiquement, les styles `nested` ou `expanded` sont utilisés en développement, alors que `compressed` est utilisé en production pour minifier vos fichiers CSS. Personnellement, je n'utilise jamais le style `compact`.
 
 ```
-npx node-sass --watch --output --style nested src/scss/main.scss dist/css/styles.css
-npx node-sass --watch --output --style expanded src/scss/main.scss dist/css/styles.css
-npx node-sass --watch --output --style compact src/scss/main.scss dist/css/styles.css
-npx node-sass --watch --output --style compressed src/scss/main.scss dist/css/styles.css
+npx node-sass --output-style nested src/scss/main.scss dist/css/styles.css
+npx node-sass --output-style expanded src/scss/main.scss dist/css/styles.css
+npx node-sass --output-style compact src/scss/main.scss dist/css/styles.css
+npx node-sass --output-style compressed src/scss/main.scss dist/css/styles.css
 ```
 
 ### Applications
