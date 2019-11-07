@@ -151,17 +151,17 @@ Les variables, les listes et les maps sont sans doute les fonctionnalités de Sa
 Qui n'a jamais rêvé en CSS de pouvoir travailler avec des variables pour les couleurs de la charte graphique utilisée ? C'est désormais possible en Sass.
 
 ```scss
-$color-gray-light1: 	  #FBFBFB;
-$color-gray-light2: 	  #F8F8F8;
-$color-gray-light3: 	  #E5E5E5;
-$color-gray-light4: 	  #C9C9C9;
+$color-gray-light1: #FBFBFB;
+$color-gray-light2: #F8F8F8;
+$color-gray-light3: #E5E5E5;
+$color-gray-light4: #C9C9C9;
 
-$color-gray-dark1: 	    #9D9D9D;
-$color-gray-dark2: 	    #595959;
-$color-gray-dark3: 	    #2F2F2F;
-$color-gray-dark4: 	    #221F1F;
+$color-gray-dark1: #9D9D9D;
+$color-gray-dark2: #595959;
+$color-gray-dark3: #2F2F2F;
+$color-gray-dark4: #221F1F;
 
-$color-brand-primary:   #FFED00;
+$color-brand-primary: #FFED00;
 $color-brand-secondary: #00ABE7;
 
 body
@@ -658,8 +658,8 @@ Cependant, notre `@mixin` n'est pas encore très DRY. Beaucoup de code est rép�
 
 ```scss
 $breakpoints: (
-  medium: "(min-width:46.875em)",
-  large: "(min-width:64em)"
+  medium: "all and (min-width:46.875em)",
+  large: "all and (min-width:64em)"
 ) !default;
 
 @mixin mq($breakpoint-name)
@@ -668,7 +668,7 @@ $breakpoints: (
   @if map-has-key($breakpoints, $breakpoint-name)
   {
     $query: map-get($breakpoints, $breakpoint-name);
-    @media all and #{$query}
+    @media #{$query}
     {
       @content;
     }
@@ -680,8 +680,8 @@ Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'obj
 
 ```scss
 $breakpoints: (
-  medium: "(min-width:46.875em)",
-  large: "(min-width:64em)"
+  medium: "all and (min-width:46.875em)",
+  large: "all and (min-width:64em)"
 ) !default;
 
 @mixin mq($breakpoint-name)
@@ -690,7 +690,7 @@ $breakpoints: (
   @if map-has-key($breakpoints, $breakpoint-name)
   {
     $query: map-get($breakpoints, $breakpoint-name);
-    @media all and #{$query}
+    @media #{$query}
     {
       @content;
     }
@@ -760,7 +760,7 @@ Ce que nous voulons générer en CSS, ce sont les classes suivantes:
 }
 
 /* large: various widths */
-@media all and (min-width: 750px) {
+@media all and (min-width: 1024px) {
   .l-grid--fluid\@large {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
@@ -793,11 +793,11 @@ $breakpoints: (
   ),
   "large": (
     "create-grid": true,
-    "query": "(min-width: 64em)",
+    "query": "all and (min-width: 64em)",
   ),
   "xlarge": (
     "create-grid": false,
-    "query": "(min-width: 71.25em)",
+    "query": "all and (min-width: 71.25em)",
   )
 ) !default;
 ```
