@@ -46,7 +46,7 @@ npm install --save-dev node-sass
 Utiliser Sass en ligne de commande dans votre terminal est vraiment très simple. Vous n'aurez que quelques commandes à retenir pour pouvoir travailler.
 
 ```
-npx node-sass src/styles.scss dist/styles.css
+npx node-sass src/scss/main.scss dist/css/styles.css
 ```
 
 Permet de compiler le fichier `src/styles.scss` vers le fichier de destination `dist/styles.css`.
@@ -54,13 +54,13 @@ Permet de compiler le fichier `src/styles.scss` vers le fichier de destination `
 Lorsqu'on travaille sur un projet, il est intéressant de ne pas répéter cette opération à chaque modification. Sass est capable de détecter les changements faits dans un fichiers ou dans tous les fichiers d'un dossier et de générer votre fichier CSS automatiquement lorsque des changements sont détectés.
 
 ```
-npx node-sass --watch src/styles.scss dist/styles.css
+npx node-sass --watch src/scss/main.scss dist/css/styles.css
 ```
 
-ou
+ou pour utiliser un directory en sortie
 
 ```
-npx node-sass --watch --output src/styles.scss dist/
+npx node-sass --watch src/scss/main.scss --output dist/css/
 ```
 
 Vous remarquerez que les fichiers CSS sont générés avec un certain style d'output. Il en existe 4 différents avec sass:
@@ -73,10 +73,10 @@ Vous remarquerez que les fichiers CSS sont générés avec un certain style d'ou
 Typiquement, les styles `nested` ou `expanded` sont utilisés en développement, alors que `compressed` est utilisé en production pour minifier vos fichiers CSS. Personnellement, je n'utilise jamais le style `compact`.
 
 ```
-npx node-sass --watch --output --style nested src/styles.scss dist/
-npx node-sass --watch --output --style expanded src/styles.scss dist/
-npx node-sass --watch --output --style compact src/styles.scss dist/
-npx node-sass --watch --output --style compressed src/styles.scss dist/
+npx node-sass --watch --output --style nested src/scss/main.scss dist/css/styles.css
+npx node-sass --watch --output --style expanded src/scss/main.scss dist/css/styles.css
+npx node-sass --watch --output --style compact src/scss/main.scss dist/css/styles.css
+npx node-sass --watch --output --style compressed src/scss/main.scss dist/css/styles.css
 ```
 
 ### Applications
@@ -85,10 +85,16 @@ Si ces quelques lignes de commande vous rebutent, vous pouvez également utilise
 
 Les outils de build ou task runners que sont [Grunt](http://gruntjs.com/) [Gulp](http://gulpjs.com/) ou les [scripts NPM](https://docs.npmjs.com/misc/scripts) permettent également de compiler du code Sass en CSS.
 
-Voici par exemple deux scripts NPM vous permettant de travailler avec Sass en Node.
+Voici par exemple quelques scripts NPM vous permettant de travailler avec Sass en Node. Ils utilisent la librairie `node-sass` ainsi que [`onchange`](https://www.npmjs.com/package/onchange).
 
+**package.json**
 ```
-
+"scripts": {
+  "build:styles": "npx node-sass src/scss/main.scss dist/css/styles.css",
+  "watch:styles": "onchange \"src/scss/**/*\" -- npm run build:styles",
+  "build": "npm run build:styles",
+  "watch": "npm run watch:styles"
+}
 ```
 
 ## Concepts
