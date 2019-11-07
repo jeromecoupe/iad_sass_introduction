@@ -453,14 +453,21 @@ Il existe [bien d'autres fonctions liées aux couleurs dans Sass](http://sass-la
 Vous pouvez également écrire vos propres fonctions dans Sass. Un exemple type consiste à calculer une taille de police spécifiée en pixels en rem, avec une taille de texte de base spécifiée à 16px par défaut.
 
 ```scss
-@function pxtorem($sizeinpixels, $base: 16px)
-{
-  @return $sizeinpixels / $base * 1rem;
+@function px2rem($pixels) {
+  @if ($pixels == 0) {
+    @return 0;
+  }
+
+  @if (unit($pixels) == "px") {
+    @return $pixels / 16px * 1rem;
+  } @else {
+    @error "passed value must be in pixels or equal to zero";
+  }
 }
 
 .page
 {
-  padding: pxtorem(30px);
+  padding: px2rem(30px);
 }
 
 ```
@@ -616,11 +623,10 @@ Une première possibilité est de simplement metre en place des media queries "n
 ```scss
 @mixin mq($breakpoint-name)
 {
-  $breakpoint-name: unquote($breakpoint-name);
   //medium screens: 750px
   @if ($breakpoint-name == "medium")
   {
-    @media screen and (min-width: 46.875em)
+    @media screen and (min-width: 750px)
     {
       @content;
     }
@@ -628,7 +634,7 @@ Une première possibilité est de simplement metre en place des media queries "n
   //large screens: 1024px
   @else if ($breakpoint-name == "large")
   {
-    @media screen and (min-width: 64em)
+    @media screen and (min-width: 1024px)
     {
       @content;
     }
@@ -658,13 +664,12 @@ Cependant, notre `@mixin` n'est pas encore très DRY. Beaucoup de code est rép�
 
 ```scss
 $breakpoints: (
-  medium: "all and (min-width:46.875em)",
-  large: "all and (min-width:64em)"
+  medium: "all and (min-width:750px)",
+  large: "all and (min-width:1024px)"
 ) !default;
 
 @mixin mq($breakpoint-name)
 {
-  $breakpoint-name: unquote($breakpoint-name);
   @if map-has-key($breakpoints, $breakpoint-name)
   {
     $query: map-get($breakpoints, $breakpoint-name);
@@ -680,13 +685,12 @@ Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'obj
 
 ```scss
 $breakpoints: (
-  medium: "all and (min-width:46.875em)",
-  large: "all and (min-width:64em)"
+  medium: "all and (min-width:750px)",
+  large: "all and (min-width:1024px)"
 ) !default;
 
 @mixin mq($breakpoint-name)
 {
-  $breakpoint-name: unquote($breakpoint-name);
   @if map-has-key($breakpoints, $breakpoint-name)
   {
     $query: map-get($breakpoints, $breakpoint-name);
@@ -704,17 +708,16 @@ $breakpoints: (
 
 ### Mixins complexes: création d'un système de grille
 
-Le but est ici de s'aider de Sass pour créer un système de grille en inline-block que nous pourrions réutiliser de projet en projet. Pour se faire nous devons prendre en compte les étapes suivantes:
+Le but est ici de s'aider de Sass pour créer un système de grilles simples que nous pourrions réutiliser de projet en projet. Pour se faire nous devons prendre en compte les étapes suivantes:
 
-1. créer les variables nécessaires: nombre de colonnes (number), taille des gutters (string) et définition des media queries (nested maps).
+1. taille des gutters (string) et définition des media queries (nested maps).
 2. créer des classes de grilles par défaut.
 3. pour chaque media query, créer des classes de grilles correspondantes et namespacées à l'aide des noms donnés à nos breakpoints.
 
 Ce que nous voulons générer en CSS, ce sont les classes suivantes:
 
 ```scss
-.l-grid
-{
+.l-grid {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -740,7 +743,6 @@ Ce que nous voulons générer en CSS, ce sont les classes suivantes:
   grid-template-columns: repeat(4, 1fr);
 }
 
-/* RWD classes medium */
 @media all and (min-width: 750px) {
   .l-grid--fluid\@medium {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -759,7 +761,6 @@ Ce que nous voulons générer en CSS, ce sont les classes suivantes:
   }
 }
 
-/* large: various widths */
 @media all and (min-width: 1024px) {
   .l-grid--fluid\@large {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -787,40 +788,40 @@ $grid-gutter: 30px !default;
 
 // breakpoints en maps imbriquées
 $breakpoints: (
-  "medium": (
-    "create-grid": true,
-    "query": "all and (min-width: 46.875em)",
+  medium: (
+    query: "all and (min-width: 750px)",
+    grid-flag: true
   ),
-  "large": (
-    "create-grid": true,
-    "query": "all and (min-width: 64em)",
+  large: (
+    query: "all and (min-width: 1024px)",
+    grid-flag: true
   ),
-  "xlarge": (
-    "create-grid": false,
-    "query": "all and (min-width: 71.25em)",
+  xlarge: (
+    query: "all and (min-width: 1140px)",
+    grid-flag: false
   )
 ) !default;
 ```
 
-Nous allons ensuite créer nos classes de base, sans tenir compte de media queries.
+Nous allons ensuite créer nos classes de base, sans tenir compte des media queries.
 
 ```scss
-// variables de grille
+// variables de gutter
 $grid-gutter: 30px !default;
 
 // breakpoints en maps imbriquées
 $breakpoints: (
-  "medium": (
-    "create-grid": true,
-    "query": "all and (min-width: 46.875em)",
+  medium: (
+    query: "all and (min-width: 750px)",
+    grid-flag: true
   ),
-  "large": (
-    "create-grid": true,
-    "query": "(min-width: 64em)",
+  large: (
+    query: "all and (min-width: 1024px)",
+    grid-flag: true
   ),
-  "xlarge": (
-    "create-grid": false,
-    "query": "(min-width: 71.25em)",
+  xlarge: (
+    query: "all and (min-width: 1140px)",
+    grid-flag: false
   )
 ) !default;
 
@@ -845,17 +846,17 @@ $grid-gutter: 30px !default;
 
 // breakpoints en maps imbriquées
 $breakpoints: (
-  "medium": (
-    "create-grid": true,
-    "query": "all and (min-width: 46.875em)",
+  medium: (
+    query: "all and (min-width: 750px)",
+    grid-flag: true
   ),
-  "large": (
-    "create-grid": true,
-    "query": "(min-width: 64em)",
+  large: (
+    query: "all and (min-width: 1024px)",
+    grid-flag: true
   ),
-  "xlarge": (
-    "create-grid": false,
-    "query": "(min-width: 71.25em)",
+  xlarge: (
+    query: "all and (min-width: 1140px)",
+    grid-flag: false
   )
 ) !default;
 
@@ -875,22 +876,19 @@ $breakpoints: (
 @each $name, $values in $breakpoints
 {
   // récupérer les valeurs des maps nestées
-  $mq-name: $name;
-  $mq-grid: map-get($values, create-grid);
-  $mq-query: map-get($values, query);
+  $grid-flag: map-get($values, grid-flag);
+  $query: map-get($values, query);
 
-  @if ($mq-grid === true) {
+  @if ($grid-flag) {
     // écrire une media query pour chaque breakpoint
-    @media #{$mq-media} and #{$mq-query}
+    @media #{$query}
     {
-      // loop de 1 à x colonnes
-      .l-grid--fluid\@#{$mq-name} {
+      .l-grid--fluid\@#{$name} {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       }
 
-      @for $i from 2 through 4
-      {
-        .l-grid--#{$i}cols\@#{$mq-name} {
+      @for $i from 2 through 4 {
+        .l-grid--#{$i}cols\@#{$name} {
           grid-template-columns: repeat(#{$i}, 1fr);
         }
       }
@@ -898,6 +896,41 @@ $breakpoints: (
   }
 }
 ```
+
+Dans ce cas, il nous faudra également modifier notre mixin de media queries pour prendre en compte notre nouvelle structure de map.
+
+```scss
+$breakpoints: (
+  medium: (
+    query: "all and (min-width: 750px)",
+    grid-flag: true
+  ),
+  large: (
+    query: "all and (min-width: 1024px)",
+    grid-flag: true
+  ),
+  xlarge: (
+    query: "all and (min-width: 1140px)",
+    grid-flag: false
+  )
+) !default;
+
+@mixin breakpoint($name) {
+  // check passed value is a key in $breakpoints-list
+  @if map-has-key($breakpoints, $name) {
+    // get values
+    $values: map-get($breakpoints, $name);
+    $query: map-get($values, query);
+
+    // write CSS media query and add rules inside
+    @media #{$query} {
+      @content;
+    }
+  } @else {
+    @warn "#{$name} is not in the list of media queries names";
+  }
+}
+````
 
 ## Ressources
 
