@@ -25,13 +25,13 @@ A mon sens, les avantages de Sass sont:
 
 Nous verrons plus loin que, grâce à sa syntaxe `scss`, Sass est entièrement compatible avec le language CSS que vous connaissez déjà. Autrement dit, prenez un fichier CSS existant et changez son extension de fichier en `.scss` et vous écrivez du Sass. Cela rend cette technologie facile à apprendre et vous permet de l'adopter petit à petit dans vos projets.
 
-Sass dépend de [Ruby](https://www.ruby-lang.org/). Cela ne veut pas pour autant dire que vous devez maîtriser ce language pour utiliser Sass. De la même manière, même si Sass peut être entièrement géré depuis votre terminal en lignes de commande, vous n'êtes pas obligés de suivre cette voie. Il existe de très bons programmes GUI vous permettant d'utiliser Sass sans pour autant devoir recourir à votre terminal (voir suite).
+A l'origine Sass dépend de [Ruby](https://www.ruby-lang.org/). Cela ne veut pas pour autant dire que vous devez maîtriser ce language pour utiliser Sass.
 
 ## Deux syntaxes
 
 Vous pouvez utiliser deux syntaxes différentes pour écrire vos fichiers: la syntaxe `scss` et la syntaxe indentée ou `Sass` plus ancienne.
 
-Nous utiliserons ici la syntaxe `scss` qui est compatible avec CSS3 et dont les fichiers fonctionnent avec l'extension `.scss`.
+Nous utiliserons ici la syntaxe `scss` dont les fichiers fonctionnent avec l'extension `.scss`.
 
 ## Installation
 
