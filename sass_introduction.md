@@ -35,12 +35,10 @@ Nous utiliserons ici la syntaxe `scss` qui est compatible avec CSS3 et dont les 
 
 ## Installation
 
-Sass dépend de Ruby, il vous faudra donc installer Ruby sur votre machine avant toute chose. Sur un mac, Ruby est déjà présent, tandis que sur Windows, il vous faudra [l'installer](http://rubyinstaller.org/downloads/).
-
-Il vous suffit ensuite d'installer la "gem" sass pour être opérationnel.
+Nous installerons ici la version Node de Sass. Il vous d'installer le package NPM et puis d'utiliser les commandes Sass avec `npx`.
 
 ```
-gem install sass
+npm install --save-dev node-sass
 ```
 
 ### Sass en ligne de commande
@@ -48,21 +46,21 @@ gem install sass
 Utiliser Sass en ligne de commande dans votre terminal est vraiment très simple. Vous n'aurez que quelques commandes à retenir pour pouvoir travailler.
 
 ```
-sass scss/screen.scss:css/screen.css
+npx node-sass src/styles.scss dist/styles.css
 ```
 
-Permet de compiler le fichier `scss/screen.scss` vers le fichier de destination `css/screen.css`.
+Permet de compiler le fichier `src/styles.scss` vers le fichier de destination `dist/styles.css`.
 
 Lorsqu'on travaille sur un projet, il est intéressant de ne pas répéter cette opération à chaque modification. Sass est capable de détecter les changements faits dans un fichiers ou dans tous les fichiers d'un dossier et de générer votre fichier CSS automatiquement lorsque des changements sont détectés.
 
 ```
-sass --watch scss/screen.scss:css/screen.css
+npx node-sass --watch src/styles.scss dist/styles.css
 ```
 
 ou
 
 ```
-sass --watch scss/:css/
+npx node-sass --watch --output src/styles.scss dist/
 ```
 
 Vous remarquerez que les fichiers CSS sont générés avec un certain style d'output. Il en existe 4 différents avec sass:
@@ -75,17 +73,23 @@ Vous remarquerez que les fichiers CSS sont générés avec un certain style d'ou
 Typiquement, les styles `nested` ou `expanded` sont utilisés en développement, alors que `compressed` est utilisé en production pour minifier vos fichiers CSS. Personnellement, je n'utilise jamais le style `compact`.
 
 ```
-sass --watch scss/:css/ --style nested
-sass --watch scss/:css/ --style expanded
-sass --watch scss/:css/ --style compact
-sass --watch scss/:css/ --style compressed
+npx node-sass --watch --output --style nested src/styles.scss dist/
+npx node-sass --watch --output --style expanded src/styles.scss dist/
+npx node-sass --watch --output --style compact src/styles.scss dist/
+npx node-sass --watch --output --style compressed src/styles.scss dist/
 ```
 
 ### Applications
 
 Si ces quelques lignes de commande vous rebutent, vous pouvez également utiliser des applications GUI qui feront le travail pour vous. Il en existe beaucoup et même si [Scout](http://mhs.github.io/scout-app/) (Mac et Windows) et [CodeKit](http://incident57.com/codekit/) (Mac) sont sans doute les plus connus [il en existe d'autres](http://sass-lang.com/install).
 
-Les outils de build ou task runners que sont [Grunt](http://gruntjs.com/) et [Gulp](http://gulpjs.com/) permettent également de compiler du code Sass en CSS.
+Les outils de build ou task runners que sont [Grunt](http://gruntjs.com/) [Gulp](http://gulpjs.com/) ou les [scripts NPM](https://docs.npmjs.com/misc/scripts) permettent également de compiler du code Sass en CSS.
+
+Voici par exemple deux scripts NPM vous permettant de travailler avec Sass en Node.
+
+```
+
+```
 
 ## Concepts
 
@@ -101,34 +105,33 @@ Voici, par exemple, une structure possible pour vos fichiers Sass dans le cadre 
 
 ```
 base/
-	_base.scss
-	_typography.scss
+  _base-body.scss
+  _base-links.scss
+  _typography.scss
 components/
-	_banners.scss
-	_buttons.scss
-	_icons.scss
-	_links.scss
-	_lists.scss
-	_media.scss
-	_modules.scss
+  _components-banners.scss
+  _components-buttons.scss
+  _components-icons.scss
+  _components-cards.scss
+  _components-header.scss
+functions/
+  _functions-pxtorems.scss
 layout/
-	_grid.scss
-	_main.scss
-	_header.scss
-	_footer.scss
-pages/
-	_home.scss
-	_contact.scss
-themes/
-	_default.scss
-utils/
-	_variables.scss
-	_functions.scss
-	_mixins.scss
-	_helpers.scss
-	_cssobjects.scss
+  _layout-grids.scss
+  _layout-containers.scss
+mixins/
+  _mixins-breakpoints.scss
+objects
+  _objects-mediaobjects.scss
+  _objects-fluidimages.scss
+settings/
+  _settings-breakpoints.scss
+  -settings-typography.scss
+  _settings-colors.scss
+utilities/
+  _utilities-spacing.scss
 vendors/
-	normalize.scss
+  _normalize.scss
 
 screen.scss
 ```
@@ -142,32 +145,32 @@ Les variables, les listes et les maps sont sans doute les fonctionnalités de Sa
 Qui n'a jamais rêvé en CSS de pouvoir travailler avec des variables pour les couleurs de la charte graphique utilisée ? C'est désormais possible en Sass.
 
 ```scss
-$color-gray-light1: 	#FBFBFB;
-$color-gray-light2: 	#F8F8F8;
-$color-gray-light3: 	#E5E5E5;
-$color-gray-light4: 	#C9C9C9;
+$color-gray-light1: 	  #FBFBFB;
+$color-gray-light2: 	  #F8F8F8;
+$color-gray-light3: 	  #E5E5E5;
+$color-gray-light4: 	  #C9C9C9;
 
-$color-gray-dark1: 	  #9D9D9D;
-$color-gray-dark2: 	  #595959;
-$color-gray-dark3: 	  #2F2F2F;
-$color-gray-dark4: 	  #221F1F;
+$color-gray-dark1: 	    #9D9D9D;
+$color-gray-dark2: 	    #595959;
+$color-gray-dark3: 	    #2F2F2F;
+$color-gray-dark4: 	    #221F1F;
 
 $color-brand-primary:   #FFED00;
 $color-brand-secondary: #00ABE7;
 
 body
 {
-	background: $color-gray-light1;
-	color: $color-gray-dark3;
+  background: $color-gray-light1;
+  color: $color-gray-dark3;
 }
 
 a
 {
-	color: $color-brand-secondary;
+  color: $color-brand-secondary;
 }
 ```
 
-*Exercice: créer un fichier _variables.scss, définissez quelques variables pour les couleurs et importez-le dans votre fichier Sass principal. Tant que vous y êtes, voyez comment vous pouvez appliquer cette logique pour d'autres choses (comme par exemple [utiliser des listes](https://speakerdeck.com/hugogiraudel/three-years-of-purging-sass) pour vos font-stacks).*
+*Exercice: créer un fichier _settings-colors.scss, définissez quelques variables pour les couleurs et importez-le dans votre fichier Sass principal. Tant que vous y êtes, voyez comment vous pouvez appliquer cette logique pour d'autres choses (comme par exemple [utiliser des listes](https://speakerdeck.com/hugogiraudel/three-years-of-purging-sass) pour vos font-stacks).*
 
 #### Listes
 
@@ -220,13 +223,13 @@ tout comme les listes, les maps peuvent également être imbriquées si besoin e
 $nested-map:
 (
   key: (
-		nested-key1: nested-value1,
-		nested-other-key1: nested-other-value1
-	),
-	other-key: (
-		nested-key2: nested-value2,
-		nested-other-key2: nested-other-value2
-	)
+    nested-key1: nested-value1,
+    nested-other-key1: nested-other-value1
+  ),
+  other-key: (
+    nested-key2: nested-value2,
+    nested-other-key2: nested-other-value2
+  )
 );
 ```
 
@@ -245,32 +248,32 @@ L'opérateur "&" est utile dans ce contexte puisqu'il permet de référencer le 
 ```scss
 .navbar
 {
-    width:100%;
-    list-style:none;
-    margin:0;
-    padding:0;
-    background:#000;
+  width:100%;
+  list-style:none;
+  margin:0;
+  padding:0;
+  background:#000;
 }
 
 .navbar__item
 {
-    display:inline-block;
+  display:inline-block;
 }
 
 .navbar__item > a
 {
-		display:block;
-		padding:.5em 1em;
-		background:#000;
-		color:#ccc;
-		text-decoration:none;
-		text-transform:uppercase;
+  display:block;
+  padding:.5em 1em;
+  background:#000;
+  color:#ccc;
+  text-decoration:none;
+  text-transform:uppercase;
 
-		&:hover
-		{
-				background:#333;
-				color:#fff;
-		}
+  &:hover
+  {
+    background:#333;
+    color:#fff;
+  }
 }
 
 .navbar__item--current > a,
@@ -296,24 +299,24 @@ compilé cela donne
   display: inline-block;
 }
 
-  .navbar__item > a {
-    display: block;
-    padding: .5em 1em;
-    background: #000;
-    color: #ccc;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
+.navbar__item > a {
+  display: block;
+  padding: .5em 1em;
+  background: #000;
+  color: #ccc;
+  text-decoration: none;
+  text-transform: uppercase;
+}
 
-    .navbar__item > a:hover {
-      background: #333;
-      color: #fff;
-    }
+.navbar__item > a:hover {
+  background: #333;
+  color: #fff;
+}
 
-  .navbar__item--current > a, .navbar__item--current > a:hover {
-    background:#F16C32;
-    color:#020202;
-  }
+.navbar__item--current > a, .navbar__item--current > a:hover {
+  background:#F16C32;
+  color:#020202;
+}
 ```
 
 L'opérateur "&" et le nesting peuvent également être utilisés pour créer facilement des fallbacks avec les classes générées par [Modernizr](http://modernizr.com/). Voici un exemple pour servir une image en `.svg` et un fallback en `.png` aux navigateurs ne supportant pas ce format.
@@ -321,12 +324,12 @@ L'opérateur "&" et le nesting peuvent également être utilisés pour créer fa
 ```scss
 .icon--phone
 {
-	background:url(/img/sprite_icons.svg) 0 0 no-repeat;
+  background:url(/img/sprite_icons.svg) 0 0 no-repeat;
 
-	.no-svg &
-	{
-		background:url(/img/sprite_icons.png) 0 0 no-repeat;
-	}
+  .no-svg &
+  {
+    background:url(/img/sprite_icons.png) 0 0 no-repeat;
+  }
 }
 ```
 
@@ -370,13 +373,13 @@ Pour éviter les problèmes, travaillez toujours avec des nombres sans unités e
 // add a unit
 div
 {
-	margin: 87 * 1px; // Output: 87px
+  margin: 87 * 1px; // Output: 87px
 }
 
 // remove a unit
 div
 {
-	margin: 87px / 1px; // Output: 87
+  margin: 87px / 1px; // Output: 87
 }
 ```
 
@@ -395,14 +398,12 @@ Admettons que vous deviez coder de façon fluide un design réalisé sur une gri
 ```scss
 .content__primary
 {
-	float: left;
-	width: percentage(600/960);
+  width: percentage(600/960);
 }
 
 .content__secondary
 {
-	float: right;
-	width: percentage(300/960);
+  width: percentage(300/960);
 }
 ```
 
@@ -415,12 +416,12 @@ $color-accent: #F16C32;
 
 .somediv
 {
-	background: lighten($color-accent, 10%);
+  background: lighten($color-accent, 10%);
 }
 
 .someotherdiv
 {
-	background: darken($color-accent, 20%);
+  background: darken($color-accent, 20%);
 }
 ```
 
@@ -430,12 +431,12 @@ $color-accent: #F16C32;
 
 .somediv
 {
-	background: mix(#000, $color-accent, 10%);
+  background: mix(#000, $color-accent, 10%);
 }
 
 .someotherdiv
 {
-	background: mix(#fff, $color-accent, 20%);
+  background: mix(#fff, $color-accent, 20%);
 }
 ```
 
@@ -443,17 +444,17 @@ Il existe [bien d'autres fonctions liées aux couleurs dans Sass](http://sass-la
 
 ### Fonctions
 
-Vous pouvez également écrire vos propres fonctions dans Sass. Un exemple type consiste à calculer une taille de police spécifiée en pixels en em, avec une taille de texte de base spécifiée à 16px.
+Vous pouvez également écrire vos propres fonctions dans Sass. Un exemple type consiste à calculer une taille de police spécifiée en pixels en rem, avec une taille de texte de base spécifiée à 16px par défaut.
 
 ```scss
-@function calc-em($sizeinpixels, $basefont)
+@function pxtorem($sizeinpixels, $base: 16px)
 {
-  @return $sizeinpixels / $basefont * 1em;
+  @return $sizeinpixels / $base * 1rem;
 }
 
 .page
 {
-	padding: calc-em(30px, 16px);
+  padding: pxtorem(30px);
 }
 
 ```
@@ -463,52 +464,13 @@ ce qui donne
 ```css
 .page
 {
-	padding: 1.875em;
-}
-```
-
-Vous pouvez spécifier des arguments par défaut pour votre fonction en utilisant la notation suivante:
-
-```scss
-@function calc-em($sizeinpixels, $basefont:16px)
-{
-  @return $sizeinpixels / $basefont * 1em;
-}
-
-.page
-{
-	padding: calc-em(30);
+  padding: 1.875rem;
 }
 ```
 
 ### Mixins: `@mixin` et `@content`
 
 Les `@mixin` vous permettent simplement de réutiliser du code à différents endroits.
-
-Un bon exemple pour une `@mixin` est par exemple le fait de spécifier une taille de police en `rem`. Certains navigateurs ne comprennent pas cette unité et il leur faut alors un fallback spécifié en `px`.
-
-```scss
-@mixin fontsize-rem($pixels)
-{
-	font-size: $pixels;
-	font-size: ($pixels / 16px) * 1rem;
-}
-
-.title-page
-{
-	@include fontsize-rem(48px);
-}
-```
-
-ce qui produirait en CSS
-
-```css
-.title-page
-{
-  font-size: 48px;
-  font-size: 3rem;
-}
-```
 
 La directive `@content` permet d'envoyer des blocs de règles CSS à une `@mixin` pour qu'elles y soit incluses. Nous verrons plus loin un exemple avec des media queries.
 
@@ -519,15 +481,15 @@ Via la directive `@extend`, Sass vous permet d'étendre des classes existantes a
 ```scss
 .btn
 {
-	display: inline-block;
-	padding: 1em;
-	text-transform: uppercase;
+  display: inline-block;
+  padding: 1em;
+  text-transform: uppercase;
 }
 
 .btn--alert
 {
-	@extend .btn;
-	background: #ff0000;
+  @extend .btn;
+  background: #ff0000;
 }
 ```
 
@@ -549,21 +511,21 @@ Très souvent, `@extend` est utilisé en combinaison avec ce que l'on appelle le
 ```scss
 %btn
 {
-	display: inline-block;
-	padding: 1em;
-	text-transform: uppercase;
+  display: inline-block;
+  padding: 1em;
+  text-transform: uppercase;
 }
 
 .btn--alert
 {
-	@extend %btn;
-	background: #ff0000;
+  @extend %btn;
+  background: #ff0000;
 }
 
 .btn--success
 {
-	@extend %btn;
-	background:#00ff00;
+  @extend %btn;
+  background:#00ff00;
 }
 ```
 
@@ -571,9 +533,9 @@ Sass va générer la CSS suivante:
 
 ```css
 .btn--alert, .btn--success {
-	display: inline-block;
-	padding: 1em;
-	text-transform: uppercase;
+  display: inline-block;
+  padding: 1em;
+  text-transform: uppercase;
 }
 
 .btn--alert {
@@ -619,10 +581,10 @@ body
 
 @media all and (min-width: 750px)
 {
-	body
-	{
-		background-color: red;
-	}
+  body
+  {
+    background-color: red;
+  }
 }
 ```
 
@@ -631,7 +593,7 @@ Cela pose deux questions:
 1. tout cela n'est pas très DRY puisque nous devons réécrire nos media queries à chaque fois. Nous verrons dans la suite que nous pouvons créer une `mixin` pour éviter le problème et nous faciliter la vie.
 2. Est-ce que cela ne pose pas des problèmes de performance d'avoir toutes ces media queries identiques séparées les unes des autres plutôt que de les grouper. La réponse est que cela à une incidence, mais qu'elle est réellement minime par rapport aux gains de temps que nous procure cette façon de travailler.
 
-Comme je sais vous ne faites pas toujours confiance à vos professeurs, [voici un est pour vous le prouver](http://aaronjensen.github.io/media_query_test/). Ce test ne prend pas en compte le fait que les fichiers CSS sont en général utilisées avec Gzip qui ne fait qu'une bouchée des chînes de caractères répétées de nombreuses fois dans une stylesheet. La différence entre les deux approches est donc plus que négligeable.
+Comme je sais vous ne faites pas toujours confiance à vos professeurs, [voici un test pour vous le prouver](http://aaronjensen.github.io/media_query_test/). Ce test ne prend pas en compte le fait que les fichiers CSS sont en général utilisées avec Gzip qui ne fait qu'une bouchée des chînes de caractères répétées de nombreuses fois dans une stylesheet. La différence entre les deux approches est donc plus que négligeable.
 
 ### Structures de contrôle
 
@@ -648,7 +610,7 @@ Une première possibilité est de simplement metre en place des media queries "n
 ```scss
 @mixin mq($breakpoint-name)
 {
-	$breakpoint-name: unquote($breakpoint-name);
+  $breakpoint-name: unquote($breakpoint-name);
   //medium screens: 750px
   @if ($breakpoint-name == "medium")
   {
@@ -690,21 +652,21 @@ Cependant, notre `@mixin` n'est pas encore très DRY. Beaucoup de code est rép�
 
 ```scss
 $breakpoints: (
-	medium: "(min-width:46.875em)",
+  medium: "(min-width:46.875em)",
   large: "(min-width:64em)"
 ) !default;
 
 @mixin mq($breakpoint-name)
 {
-	$breakpoint-name: unquote($breakpoint-name);
-	@if map-has-key($breakpoints, $breakpoint-name)
-	{
-		$query: map-get($breakpoints, $breakpoint-name);
-		@media all and #{$query}
-		{
-			@content;
-		}
-	}
+  $breakpoint-name: unquote($breakpoint-name);
+  @if map-has-key($breakpoints, $breakpoint-name)
+  {
+    $query: map-get($breakpoints, $breakpoint-name);
+    @media all and #{$query}
+    {
+      @content;
+    }
+  }
 }
 ```
 
@@ -712,25 +674,25 @@ Il ne nous reste plus qu'à implémenter un message d'erreur informatif et l'obj
 
 ```scss
 $breakpoints: (
-	medium: "(min-width:46.875em)",
+  medium: "(min-width:46.875em)",
   large: "(min-width:64em)"
 ) !default;
 
 @mixin mq($breakpoint-name)
 {
-	$breakpoint-name: unquote($breakpoint-name);
-	@if map-has-key($breakpoints, $breakpoint-name)
-	{
-		$query: map-get($breakpoints, $breakpoint-name);
-		@media all and #{$query}
-		{
-			@content;
-		}
-	}
-	@else
-	{
-		@warn "#{$mq-name} is not a value defined in the 'breakpoints' map.";
-	}
+  $breakpoint-name: unquote($breakpoint-name);
+  @if map-has-key($breakpoints, $breakpoint-name)
+  {
+    $query: map-get($breakpoints, $breakpoint-name);
+    @media all and #{$query}
+    {
+      @content;
+    }
+  }
+  @else
+  {
+    @warn "#{$breakpoint-name} is not a value defined in the 'breakpoints' map.";
+  }
 }
 ```
 
@@ -745,81 +707,69 @@ Le but est ici de s'aider de Sass pour créer un système de grille en inline-bl
 Ce que nous voulons générer en CSS, ce sont les classes suivantes:
 
 ```scss
-.grid
+.l-grid
 {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	padding-left: -30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
 }
 
-.grid__unit
-{
-	box-sizing: border-box;
-	width: 100%;
-	display: inline-block;
-	vertical-align: top;
-	padding-left: 30px;
+.l-grid--fluid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-/* base: various widths */
-.grid__unit--1of12
-{
-	width: 8.333333333%;
+.l-grid--2cols {
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.grid__unit--2of12
-{
-	width: 16.666666667%;
+.l-grid--3cols {
+  grid-template-columns: repeat(3, 1fr);
 }
 
-... [more classes] ...
-
-.grid__unit--12of12
-{
-	width: 100%;
+.l-grid--4cols {
+  grid-template-columns: repeat(4, 1fr);
 }
 
-/* medium: various widths */
-@media all and (min-width: 46.875em)
-{
-	.grid__unit--medium-1of12
-	{
-		width: 8.333333333%;
-	}
+/* RWD classes medium */
+@media all and (min-width: 750px) {
+  .l-grid--fluid\@medium {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
 
-	.grid__unit--medium-2of12
-	{
-		width: 16.666666667%;
-	}
+  .l-grid--2cols\@medium {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-	... [more classes] ...
+  .l-grid--3cols\@medium {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-	.grid__unit--medium-12of12
-	{
-		width: 100%;
-	}
+  .l-grid--4cols\@medium {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 /* large: various widths */
-@media all and (min-width: 64em)
-{
-	.grid__unit--large-1of12
-	{
-		width: 8.333333333%;
-	}
+@media all and (min-width: 750px) {
+  .l-grid--fluid\@large {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
 
-	.grid__unit--large-2of12
-	{
-		width: 16.666666667%;
-	}
+  .l-grid--2cols\@large {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-	... [more classes] ...
+  .l-grid--3cols\@large {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-	.grid__unit--large-12of12
-	{
-		width: 100%;
-	}
+  .l-grid--4cols\@large {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 ```
 
@@ -827,21 +777,20 @@ Pour réaliser cela en Sass, commençons par créer nos variables. Nous allons u
 
 ```scss
 // variables de grille
-$grid-columns: 12 !default;
 $grid-gutter: 30px !default;
 
 // breakpoints en maps imbriquées
 $breakpoints: (
   "medium": (
-    "media": "all",
-    "query": "(min-width: 46.875em)",
+    "create-grid": true,
+    "query": "all and (min-width: 46.875em)",
   ),
   "large": (
-    "media": "all",
+    "create-grid": true,
     "query": "(min-width: 64em)",
   ),
   "xlarge": (
-    "media": "all",
+    "create-grid": false,
     "query": "(min-width: 71.25em)",
   )
 ) !default;
@@ -851,31 +800,33 @@ Nous allons ensuite créer nos classes de base, sans tenir compte de media queri
 
 ```scss
 // variables de grille
-$grid-columns: 12 !default;
 $grid-gutter: 30px !default;
 
 // breakpoints en maps imbriquées
 $breakpoints: (
   "medium": (
-    "media": "all",
-    "query": "(min-width: 46.875em)",
+    "create-grid": true,
+    "query": "all and (min-width: 46.875em)",
   ),
   "large": (
-    "media": "all",
+    "create-grid": true,
     "query": "(min-width: 64em)",
   ),
   "xlarge": (
-    "media": "all",
+    "create-grid": false,
     "query": "(min-width: 71.25em)",
   )
 ) !default;
 
 // classes de grille par défaut: pas de media queries
-@for $i from 1 through $grid-columns
+.l-grid--fluid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+@for $i from 2 through 4
 {
-  .grid__unit--#{$i}of#{$grid-columns}
-  {
-    width: percentage( $i / $grid-columns );
+  .l-grid--{$i}cols {
+    grid-template-columns: repeat({$i}, 1fr);
   }
 }
 ```
@@ -884,31 +835,33 @@ Nous allons ensuite parcourir notre map `$breakpoints` et, pour chaque breakpoin
 
 ```scss
 // variables de grille
-$grid-columns: 12 !default;
 $grid-gutter: 30px !default;
 
 // breakpoints en maps imbriquées
 $breakpoints: (
   "medium": (
-    "media": "all",
-    "query": "(min-width: 46.875em)",
+    "create-grid": true,
+    "query": "all and (min-width: 46.875em)",
   ),
   "large": (
-    "media": "all",
+    "create-grid": true,
     "query": "(min-width: 64em)",
   ),
   "xlarge": (
-    "media": "all",
+    "create-grid": false,
     "query": "(min-width: 71.25em)",
   )
 ) !default;
 
 // classes de grille par défaut: pas de media queries
-@for $i from 1 through $grid-columns
+.l-grid--fluid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+@for $i from 2 through 4
 {
-  .grid__unit--#{$i}of#{$grid-columns}
-  {
-    width: percentage( $i / $grid-columns );
+  .l-grid--#{$i}cols {
+    grid-template-columns: repeat(#{$i}, 1fr);
   }
 }
 
@@ -917,19 +870,23 @@ $breakpoints: (
 {
   // récupérer les valeurs des maps nestées
   $mq-name: $name;
-  $mq-media: map-get($values, media);
+  $mq-grid: map-get($values, create-grid);
   $mq-query: map-get($values, query);
 
-  // écrire une media query pour chaque breakpoint
-  @media #{$mq-media} and #{$mq-query}
-  {
-    // loop de 1 à x colonnes
-    @for $i from 1 through $grid-columns
+  @if ($mq-grid === true) {
+    // écrire une media query pour chaque breakpoint
+    @media #{$mq-media} and #{$mq-query}
     {
-      // écrire les classes de grille namespacées dans chaque media query
-      .grid__unit--#{$mq-name}-#{$i}of#{$grid-columns}
+      // loop de 1 à x colonnes
+      .l-grid--fluid\@#{$mq-name} {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+
+      @for $i from 2 through 4
       {
-        width: percentage( $i / $grid-columns );
+        .l-grid--#{$i}cols\@#{$mq-name} {
+          grid-template-columns: repeat(#{$i}, 1fr);
+        }
       }
     }
   }
