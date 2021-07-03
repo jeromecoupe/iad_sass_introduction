@@ -15,7 +15,7 @@ Sass vous permet également de gérer plus efficacement votre code CSS et de ne 
 - `@media`
 - `@import`
 
-Attention cependant, Sass n'est pas une technologie qui vous fera magiquement écrire du code CSS propre et optimisé. Le prérequis est de bien connaître CSS d'abord et d'être toujours attentif au code généré. Sass est un outil qui peut vous faciliter la vie mais ce qui importe, en fin de compte, c'est le code CSS généré.
+Attention cependant, Sass n'est pas une technologie qui vous fera magiquement écrire du code CSS propre et optimisé. Le pré-requis est de bien connaître CSS d'abord et d'être toujours attentif au code généré. Sass est un outil qui peut vous faciliter la vie mais ce qui importe, en fin de compte, c'est le code CSS généré.
 
 A mon sens, les avantages de Sass sont:
 
@@ -35,63 +35,60 @@ Nous utiliserons ici la syntaxe `scss` dont les fichiers fonctionnent avec l'ext
 
 ## Installation
 
-Nous installerons ici la version Node de Sass. Il vous d'installer le package NPM et puis d'utiliser les commandes Sass avec `npx`.
+Commençons par initialiser NPM pour notre projet avec `npm init -y`. Cette commande vous done une série d'options par défaut. Vous pouvez ensuite mettre à jour votre fichier `package.json`.
+
+Nous pouvons ensuite installer le package NPM `sass` et utiliser les commandes sass avec `npx` ou dans le cadre de scripts NPM.
 
 ```
-npm install --save-dev node-sass
+npm install --save-dev sass
 ```
 
 ### Sass en ligne de commande
 
-Utiliser Sass en ligne de commande dans votre terminal est vraiment très simple. Vous n'aurez que quelques commandes à retenir pour pouvoir travailler.
+[Utiliser Sass en ligne de commande](https://sass-lang.com/documentation/cli/dart-sass) dans votre terminal est vraiment très simple. Vous n'aurez que quelques commandes à retenir pour pouvoir travailler.
+
+Utiliser en mode one to one:
 
 ```
-npx node-sass src/scss/main.scss dist/css/styles.css
+npx sass src/scss/main.scss dist/css/styles.css
 ```
 
-Permet de compiler le fichier `src/styles.scss` vers le fichier de destination `dist/styles.css`.
-
-Lorsqu'on travaille sur un projet, il est intéressant de ne pas répéter cette opération à chaque modification. Sass est capable de détecter les changements faits dans un fichiers ou dans tous les fichiers d'un dossier et de générer votre fichier CSS automatiquement lorsque des changements sont détectés.
+Utiliser en mode many to many:
 
 ```
-npx node-sass --watch src/scss/main.scss dist/css/styles.css
+npx sass src/scss/one.scss:dist/css/one.css src/scss/two.scss:dist/css/two.css
 ```
 
-ou pour utiliser un directory en sortie
+Lorsqu'on travaille sur un projet, il est intéressant de ne pas répéter cette opération à chaque modification. Sass, à travers l'option `--watch` est capable de détecter les changements faits dans un fichiers ou dans tous les fichiers d'un dossier et de générer votre fichier CSS automatiquement lorsque des changements sont détectés.
 
 ```
-npx node-sass --watch src/scss/main.scss --output dist/css/
+npx sass --watch src/scss/main.scss dist/css/styles.css
 ```
 
-Vous remarquerez que les fichiers CSS sont générés avec un certain style d'output. Il en existe 4 différents avec sass:
+Vous remarquerez que les fichiers CSS sont générés avec un certain style d'output. Il en existe 2 différents avec sass:
 
-- Nested (default)
-- Expanded
-- Compact
+- Expanded (default)
 - Compressed
 
-Typiquement, les styles `nested` ou `expanded` sont utilisés en développement, alors que `compressed` est utilisé en production pour minifier vos fichiers CSS. Personnellement, je n'utilise jamais le style `compact`.
+Typiquement, le style `expanded` sont utilisés en développement, alors que `compressed` est utilisé en production pour minifier vos fichiers CSS.
 
 ```
-npx node-sass --output-style nested src/scss/main.scss dist/css/styles.css
-npx node-sass --output-style expanded src/scss/main.scss dist/css/styles.css
-npx node-sass --output-style compact src/scss/main.scss dist/css/styles.css
-npx node-sass --output-style compressed src/scss/main.scss dist/css/styles.css
+npx sass --style=compressed src/scss/main.scss dist/css/styles.css
 ```
 
 ### Applications
 
-Si ces quelques lignes de commande vous rebutent, vous pouvez également utiliser des applications GUI qui feront le travail pour vous. Il en existe beaucoup et même si [Scout](http://mhs.github.io/scout-app/) (Mac et Windows) et [CodeKit](http://incident57.com/codekit/) (Mac) sont sans doute les plus connus [il en existe d'autres](http://sass-lang.com/install).
+Si ces quelques lignes de commande vous rebutent, vous pouvez également utiliser des applications GUI qui feront le travail pour vous. Il en existe beaucoup et même si [Scout](https://scout-app.io/) (Mac et Windows) et [CodeKit](http://incident57.com/codekit/) (Mac) sont sans doute les plus connus [il en existe d'autres](http://sass-lang.com/install).
 
 Les outils de build ou task runners que sont [Grunt](http://gruntjs.com/) [Gulp](http://gulpjs.com/) ou les [scripts NPM](https://docs.npmjs.com/misc/scripts) permettent également de compiler du code Sass en CSS.
 
-Voici par exemple quelques scripts NPM vous permettant de travailler avec Sass en Node. Ils utilisent la librairie `node-sass` ainsi que [`onchange`](https://www.npmjs.com/package/onchange).
+Voici par exemple quelques scripts NPM vous permettant de travailler avec Sass.
 
 **package.json**
 ```
 "scripts": {
-  "build:styles": "npx node-sass src/scss/main.scss dist/css/styles.css",
-  "watch:styles": "onchange \"src/scss/**/*\" -- npm run build:styles",
+  "build:styles": "npx sass --style=compressed --no-source-map src/scss/main.scss dist/css/styles.css",
+  "watch:styles": "npx sass --embed-source-map src/scss/main.scss dist/css/styles.css",
   "build": "npm run build:styles",
   "watch": "npm run watch:styles"
 }
@@ -107,13 +104,12 @@ Maintenant que nous avons installé Sass et que nous avons un workflow, pratiquo
 
 Habituellement, vos fichiers sont structurés de telle manière que votre fichier Sass principal ne contienne que des directives `@import`. Vous pouvez préfixer le nom des fichiers importés avec `_` de manière à ce que Sass ne les compile pas directement.
 
-Voici, par exemple, une structure possible pour vos fichiers Sass dans le cadre d'un projet plus complexe. Un [boiletrplate et des expications détaillées sont disponibles](http://sass-guidelin.es/#the-7-1-pattern) sur le site Sass Guildelines.
+Voici, par exemple, une structure possible pour vos fichiers Sass dans le cadre d'un projet plus complexe. Un [boilerplate et des explications détaillées sont disponibles](http://sass-guidelin.es/#the-7-1-pattern) sur le site Sass Guildelines.
 
 ```
 base/
   _base-body.scss
   _base-links.scss
-  _typography.scss
 components/
   _components-banners.scss
   _components-buttons.scss
@@ -139,7 +135,7 @@ utilities/
 vendors/
   _normalize.scss
 
-screen.scss
+main.scss
 ```
 
 ### Variables, Listes et maps
@@ -148,48 +144,33 @@ Les variables, les listes et les maps sont sans doute les fonctionnalités de Sa
 
 #### Variables
 
-Qui n'a jamais rêvé en CSS de pouvoir travailler avec des variables pour les couleurs de la charte graphique utilisée ? C'est désormais possible en Sass.
+Il est possible d'utiliser des variables en CSS mais aussi en Sass.
 
 ```scss
-$color-gray-light1: #FBFBFB;
-$color-gray-light2: #F8F8F8;
-$color-gray-light3: #E5E5E5;
-$color-gray-light4: #C9C9C9;
+$button-vspace: calc(12 / 16 * 1rem);
+$button-hspace: calc(24 / 16 * 1rem);
 
-$color-gray-dark1: #9D9D9D;
-$color-gray-dark2: #595959;
-$color-gray-dark3: #2F2F2F;
-$color-gray-dark4: #221F1F;
-
-$color-brand-primary: #FFED00;
-$color-brand-secondary: #00ABE7;
-
-body
-{
-  background: $color-gray-light1;
-  color: $color-gray-dark3;
-}
-
-a
-{
-  color: $color-brand-secondary;
+.c-button {
+  display: inline-block;
+  padding: $button-vspace $button-hspace;
+  // rest of the code
 }
 ```
 
-*Exercice: créer un fichier _settings-colors.scss, définissez quelques variables pour les couleurs et importez-le dans votre fichier Sass principal. Tant que vous y êtes, voyez comment vous pouvez appliquer cette logique pour d'autres choses (comme par exemple [utiliser des listes](https://speakerdeck.com/hugogiraudel/three-years-of-purging-sass) pour vos font-stacks).*
+*Exercice: créer un composant Scss `.c-alert` avec quelques paramètres gérés par des variables.*
 
 #### Listes
 
 Les listes sont un bon moyen de créer des variables complexes en Sass, qui offre différents fonctions spécifiques aux listes pour les exploiter au mieux. Nous en verrons un exemple un peu plus loin.
 
-En gros vous pouvez créer des listes simples ou des listes imbriquées dans Sass. Vous pouvez utiliser ou des virgules ou des espaces comme séparateurs.
+Vous pouvez créer des listes simples ou des listes imbriquées dans Sass. Vous pouvez utiliser ou des virgules ou des espaces comme séparateurs. La recommendation est d'utiliser des virgules comme séparateurs et des parenthèses pour délimiter vos listes.
 
 ```scss
 $fruits-espaces:    "pomme" "poire" "orange";
 $fruits-virgules:   "pomme", "poire", "orange";
 $fruits-ideal:      ("pomme", "poire", "orange");
 ```
-Pour des listes imbriquées, soit vous utilisez des séparateurs différents, soit vous pouvez utiliser des parenthèses.
+Pour des listes imbriquées:
 
 ```scss
 /* Nested lists with braces and same separator */
@@ -198,11 +179,6 @@ $list: (
         ("item-2.1", "item-2.2", "item-2.3"),
         ("item-3.1", "item-3.2", "item-3.3")
        );
-
-/* Nested lists without braces using different separators to distinguish levels */
-$list: "item-1.1" "item-1.2" "item-1.3",
-       "item-2.1" "item-2.2" "item-2.3",
-       "item-3.1" "item-3.2" "item-3.3";
 ```
 
 Hugo Giraudel propose [un excellent article d'introduction aux listes en Sass](http://hugogiraudel.com/2013/07/15/understanding-sass-lists/) si vous voulez en savoir plus sur les listes. De manière générale, [le site de Hugo](http://hugogiraudel.com/) est une mine d'or en ce qui concerne Sass.
@@ -211,11 +187,11 @@ Sass possède [de nombreuses fonctions](http://sass-lang.com/documentation/Sass/
 
 #### Maps
 
-Les maps sont un outil un peu plus avancé que les listes. Ce sont essentiellement ce que l'on appelle des tableaux associatifs dans d'autres langauges de programmation. Les maps associent des clefs à des valeurs.
+Les maps sont un outil un peu plus avancé que les listes. Ce sont essentiellement ce que l'on appelle des tableaux associatifs dans d'autres langages de programmation. Les maps associent des clefs à des valeurs.
 
 Contrairement aux listes, les maps sont toujours entourées par des parenthèses, `:` est utilisé pour séparer les clefs des valeurs et des `,` sont utilisées pour séparer les groupes de clefs et de valeurs.
 
-```
+```scss
 $map:
 (
   key: value,
@@ -223,7 +199,7 @@ $map:
 );
 ```
 
-tout comme les listes, les maps peuvent également être imbriquées si besoin est.
+Tout comme les listes, les maps peuvent également être imbriquées si besoin est.
 
 ```
 $nested-map:
@@ -325,20 +301,6 @@ compilé cela donne
 }
 ```
 
-L'opérateur "&" et le nesting peuvent également être utilisés pour créer facilement des fallbacks avec les classes générées par [Modernizr](http://modernizr.com/). Voici un exemple pour servir une image en `.svg` et un fallback en `.png` aux navigateurs ne supportant pas ce format.
-
-```scss
-.icon--phone
-{
-  background:url(/img/sprite_icons.svg) 0 0 no-repeat;
-
-  .no-svg &
-  {
-    background:url(/img/sprite_icons.png) 0 0 no-repeat;
-  }
-}
-```
-
 Deux articles intéressants concernant le nesting avec Sass: "[the inception rule](http://thesassway.com/beginner/the-inception-rule/)" et "[Avoid nested selectors for more modular CSS](http://thesassway.com/intermediate/avoid-nested-selectors-for-more-modular-css/)".
 
 **TL;DR** nestez le moins possible!
@@ -393,25 +355,7 @@ Les opérateurs d'égalité (`==` et `!=`) sont également disponibles, ainsi qu
 
 #### Fonctions natives disponibles dans Sass
 
-Sass possède également nativement une [liste impressionnante de fonctions](http://sass-lang.com/documentation/Sass/Script/Functions.html). Nous en verrons quelques unes dans la suite du cours mais en voici deux assez intéressantes.
-
-##### percentage
-
-Voici une fonction très utile lorsque vous faites du responsive web design pour calculer des pourcentages selon la formule "result = target / context".
-
-Admettons que vous deviez coder de façon fluide un design réalisé sur une grille de 960px, avec un contenu principal à 600px, un gutter de 60px et un contenu secondaire de 300px. Plus besoin de votre calculatrice, vous pouvez utiliser ces valeurs directement dans Sass.
-
-```scss
-.content__primary
-{
-  width: percentage(600/960);
-}
-
-.content__secondary
-{
-  width: percentage(300/960);
-}
-```
+Sass possède également nativement une [liste impressionnante de fonctions](http://sass-lang.com/documentation/Sass/Script/Functions.html). Nous en verrons quelques unes dans la suite du cours mais voici quelques fonctions liées aux couleurs qui cont assez intéressantes.
 
 ##### Fonctions liées aux couleurs
 
@@ -564,9 +508,11 @@ Sass va générer la CSS suivante:
 
 [Comme le fait assez justement remarquer Harry Roberts](http://csswizardry.com/2014/11/when-to-use-extend-when-to-use-a-mixin/), `@extend` créée des relations entre vos sélecteurs, ce qui peut [créer des problèmes et même être contre-productif](http://www.smashingmagazine.com/2015/05/extending-in-sass-without-mess/) dans le cas d'une utilisation non réfléchie.
 
-Il est fortelent conseillé d'utiliser `@extend` avec parcimonie et d'entendre uniquement des classes silencieuses dans le cadre de relations explicites entre sélecteurs lorsque ces derniers partagent des règles CSS de façon claire (comme dans l'exemple des boutons donné plus haut).
+Il est fortement conseillé d'utiliser `@extend` avec parcimonie et d'étendre uniquement des classes silencieuses dans le cadre de relations explicites entre sélecteurs lorsque ces derniers partagent des règles CSS de façon claire (comme dans l'exemple des boutons donné plus haut).
 
 Dans tous les autres cas où vous souhaitez simplement éviter les répétitions, il est préférable d'utiliser des variables ou des mixin sans arguments.
+
+**TL;DR:** personnellement, je n'utilise quasiment jamais `@extend` pour les raisons citées plus haut.
 
 ### Media Queries avec la directive `@media`
 
@@ -606,7 +552,7 @@ Cela pose deux questions:
 1. tout cela n'est pas très DRY puisque nous devons réécrire nos media queries à chaque fois. Nous verrons dans la suite que nous pouvons créer une `mixin` pour éviter le problème et nous faciliter la vie.
 2. Est-ce que cela ne pose pas des problèmes de performance d'avoir toutes ces media queries identiques séparées les unes des autres plutôt que de les grouper. La réponse est que cela à une incidence, mais qu'elle est réellement minime par rapport aux gains de temps que nous procure cette façon de travailler.
 
-Comme je sais vous ne faites pas toujours confiance à vos professeurs, [voici un test pour vous le prouver](http://aaronjensen.github.io/media_query_test/). Ce test ne prend pas en compte le fait que les fichiers CSS sont en général utilisées avec Gzip qui ne fait qu'une bouchée des chînes de caractères répétées de nombreuses fois dans une stylesheet. La différence entre les deux approches est donc plus que négligeable.
+Comme je sais vous ne faites pas toujours confiance à vos professeurs, [voici un test pour vous le prouver](http://aaronjensen.github.io/media_query_test/). Ce test ne prend pas en compte le fait que les fichiers CSS sont en général utilisées avec Gzip qui ne fait qu'une bouchée des chaînes de caractères répétées de nombreuses fois dans une stylesheet. La différence entre les deux approches est donc plus que négligeable.
 
 ### Structures de contrôle
 
@@ -618,7 +564,7 @@ Nous allons maintenant utiliser ces structures de contrôle pour créer une `@mi
 
 Notre problème est de créer une `@mixin` efficace pour éviter de devoir répéter nos media queries à chaque fois dans notre code.
 
-Une première possibilité est de simplement metre en place des media queries "nommées" et d'utiliser la directive `@content`, ainsi que quelques conditions.
+Une première possibilité est de simplement mettre en place des media queries "nommées" et d'utiliser la directive `@content`, ainsi que quelques conditions.
 
 ```scss
 @mixin mq($breakpoint-name)
@@ -710,7 +656,7 @@ $breakpoints: (
 
 Le but est ici de s'aider de Sass pour créer un système de grilles simples que nous pourrions réutiliser de projet en projet. Pour se faire nous devons prendre en compte les étapes suivantes:
 
-1. taille des gutters (string) et définition des media queries (nested maps).
+1. taille des gutters (string) et définition des media queries.
 2. créer des classes de grilles par défaut.
 3. pour chaque media query, créer des classes de grilles correspondantes et namespacées à l'aide des noms donnés à nos breakpoints.
 
@@ -744,8 +690,8 @@ Ce que nous voulons générer en CSS, ce sont les classes suivantes:
 }
 
 @media all and (min-width: 750px) {
-  .l-grid--fluid\@medium {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  .l-grid--full\@medium {
+    grid-template-columns: 1fr;
   }
 
   .l-grid--2cols\@medium {
@@ -762,8 +708,8 @@ Ce que nous voulons générer en CSS, ce sont les classes suivantes:
 }
 
 @media all and (min-width: 1024px) {
-  .l-grid--fluid\@large {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  .l-grid--full\@large {
+    grid-template-columns: 1fr;
   }
 
   .l-grid--2cols\@large {
@@ -778,159 +724,114 @@ Ce que nous voulons générer en CSS, ce sont les classes suivantes:
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+@media all and (min-width: 1140px) {
+  .l-grid--full\@xlarge {
+    grid-template-columns: 1fr;
+  }
+
+  .l-grid--2cols\@xlarge {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .l-grid--3cols\@xlarge {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .l-grid--4cols\@xlarge {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 ```
 
 Pour réaliser cela en Sass, commençons par créer nos variables. Nous allons utiliser le flag `!default` pour permettre de les surdéterminer si besoin est dans un fichier de variables centralisé.
 
 ```scss
-// variables de grille
+// ----------------------------------
+// variables
+// ----------------------------------
+
+// gutters
 $grid-gutter: 30px !default;
 
-// breakpoints en maps imbriquées
+// breakpoints map
 $breakpoints: (
-  medium: (
-    query: "all and (min-width: 750px)",
-    grid-flag: true
-  ),
-  large: (
-    query: "all and (min-width: 1024px)",
-    grid-flag: true
-  ),
-  xlarge: (
-    query: "all and (min-width: 1140px)",
-    grid-flag: false
-  )
+  medium: "all and (min-width: 750px)",
+  large: "all and (min-width: 1024px)",
+  xlarge: "all and (min-width: 1140px)"
 ) !default;
 ```
 
-Nous allons ensuite créer nos classes de base, sans tenir compte des media queries.
+Nous allons ensuite créer nos classes de base, sans utiliser de media queries.
 
 ```scss
-// variables de gutter
-$grid-gutter: 30px !default;
-
-// breakpoints en maps imbriquées
-$breakpoints: (
-  medium: (
-    query: "all and (min-width: 750px)",
-    grid-flag: true
-  ),
-  large: (
-    query: "all and (min-width: 1024px)",
-    grid-flag: true
-  ),
-  xlarge: (
-    query: "all and (min-width: 1140px)",
-    grid-flag: false
-  )
-) !default;
+// ----------------------------------
+// base classes (no media queries)
+// ----------------------------------
 
 // classes de grille par défaut: pas de media queries
 .l-grid--fluid {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-@for $i from 2 through 4
-{
-  .l-grid--{$i}cols {
-    grid-template-columns: repeat({$i}, 1fr);
+@for $i from 2 through 4 {
+  .l-grid--#{$i}cols {
+    grid-template-columns: repeat(#{$i}, 1fr);
   }
 }
 ```
 
-Nous allons ensuite parcourir notre map `$breakpoints` et, pour chaque breakpoint, nous allons écrire des classes namespacées dans une media query correspondante.
+Nous allons enfin parcourir notre map `$breakpoints` et, pour chaque breakpoint, écrire des classes namespacées dans une media query correspondante.
 
 ```scss
-// variables de grille
+// ----------------------------------
+// variables
+// ----------------------------------
+
+// gutters
 $grid-gutter: 30px !default;
 
-// breakpoints en maps imbriquées
+// breakpoints map
 $breakpoints: (
-  medium: (
-    query: "all and (min-width: 750px)",
-    grid-flag: true
-  ),
-  large: (
-    query: "all and (min-width: 1024px)",
-    grid-flag: true
-  ),
-  xlarge: (
-    query: "all and (min-width: 1140px)",
-    grid-flag: false
-  )
+  medium: "all and (min-width: 750px)",
+  large: "all and (min-width: 1024px)",
+  xlarge: "all and (min-width: 1140px)"
 ) !default;
+
+// ----------------------------------
+// base classes (no media queries)
+// ----------------------------------
 
 // classes de grille par défaut: pas de media queries
 .l-grid--fluid {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-@for $i from 2 through 4
-{
+@for $i from 2 through 4 {
   .l-grid--#{$i}cols {
     grid-template-columns: repeat(#{$i}, 1fr);
   }
 }
 
-// classes namespacées pour chaque media queries
-@each $name, $values in $breakpoints
-{
-  // récupérer les valeurs des maps nestées
-  $grid-flag: map-get($values, grid-flag);
-  $query: map-get($values, query);
+// ----------------------------------
+// responsive classes
+// ----------------------------------
 
-  @if ($grid-flag) {
-    // écrire une media query pour chaque breakpoint
-    @media #{$query}
-    {
-      .l-grid--fluid\@#{$name} {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      }
+@each $name, $query in $breakpoints {
+  // écrire une media query pour chaque breakpoint
+  @media #{$query} {
+    .l-grid--full\@#{$name} {
+      grid-template-columns: 1fr;
+    }
 
-      @for $i from 2 through 4 {
-        .l-grid--#{$i}cols\@#{$name} {
-          grid-template-columns: repeat(#{$i}, 1fr);
-        }
+    @for $i from 2 through 4 {
+      .l-grid--#{$i}cols\@#{$name} {
+        grid-template-columns: repeat(#{$i}, 1fr);
       }
     }
   }
 }
 ```
-
-Dans ce cas, il nous faudra également modifier notre mixin de media queries pour prendre en compte notre nouvelle structure de map.
-
-```scss
-$breakpoints: (
-  medium: (
-    query: "all and (min-width: 750px)",
-    grid-flag: true
-  ),
-  large: (
-    query: "all and (min-width: 1024px)",
-    grid-flag: true
-  ),
-  xlarge: (
-    query: "all and (min-width: 1140px)",
-    grid-flag: false
-  )
-) !default;
-
-@mixin breakpoint($name) {
-  // check passed value is a key in $breakpoints-list
-  @if map-has-key($breakpoints, $name) {
-    // get values
-    $values: map-get($breakpoints, $name);
-    $query: map-get($values, query);
-
-    // write CSS media query and add rules inside
-    @media #{$query} {
-      @content;
-    }
-  } @else {
-    @warn "#{$name} is not in the list of media queries names";
-  }
-}
-````
 
 ## Ressources
 
