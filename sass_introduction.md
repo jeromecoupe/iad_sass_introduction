@@ -82,15 +82,17 @@ Si ces quelques lignes de commande vous rebutent, vous pouvez également utilise
 
 Les outils de build ou task runners que sont [Grunt](http://gruntjs.com/) [Gulp](http://gulpjs.com/) ou les [scripts NPM](https://docs.npmjs.com/misc/scripts) permettent également de compiler du code Sass en CSS.
 
-Voici par exemple quelques scripts NPM vous permettant de travailler avec Sass.
+Voici par exemple quelques scripts NPM vous permettant de travailler avec Sass. Les packages utilisés sont: [rimraf](https://www.npmjs.com/package/rimraf) (delete), [sass](https://www.npmjs.com/package/sass) (compiler [scss](https://sass-lang.com/documentation/cli/dart-sass) en css), [npm-run-all](https://www.npmjs.com/package/npm-run-all) (faire tourner des scripts en parallèle ou en séquentiel), [browser-sync](https://www.npmjs.com/package/browser-sync) (serveur local).
 
 **package.json**
 ```
 "scripts": {
-  "build:styles": "npx sass --style=compressed --no-source-map src/scss/main.scss dist/css/styles.css",
-  "watch:styles": "npx sass --embed-source-map src/scss/main.scss dist/css/styles.css",
-  "build": "npm run build:styles",
-  "watch": "npm run watch:styles"
+  "clear": "rimraf \"dist/\"",
+  "server": "browser-sync start --server --no-open --files \"src\" \"**/*.html\"",
+  "styles:prod": "sass \"src/scss:dist/css\" --style=compressed  --no-source-map",
+  "styles:dev": "sass \"src/scss:dist/css\" --watch --embed-source-map --source-map-urls=absolute",
+  "build": "npm-run-all --serial clear --parallel styles:prod",
+  "dev": "npm-run-all --parallel server styles:dev"
 }
 ```
 
