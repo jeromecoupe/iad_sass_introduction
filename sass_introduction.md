@@ -183,7 +183,7 @@ $list: (
        );
 ```
 
-Hugo Giraudel propose [un excellent article d'introduction aux listes en Sass](http://hugogiraudel.com/2013/07/15/understanding-sass-lists/) si vous voulez en savoir plus sur les listes. De manière générale, [le site de Hugo](http://hugogiraudel.com/) est une mine d'or en ce qui concerne Sass.
+Kitty Giraudel propose [un excellent article d'introduction aux listes en Sass](https://kittygiraudel.com/2013/07/15/understanding-sass-lists/) si vous voulez en savoir plus sur les listes. De manière générale, [le site de Kitty](https://kittygiraudel.com/) est une mine d'or en ce qui concerne Sass.
 
 Sass possède [de nombreuses fonctions](http://sass-lang.com/documentation/Sass/Script/Functions.html) vous permettant de manipuler des listes. Celles-ci sont similaires à ce que vous pouvez trouver dans d'autres langages de programmation.
 
@@ -217,7 +217,7 @@ $nested-map:
 );
 ```
 
-L'inévitable Hugo Giraudel propose un bon [article d'introduction à l'utilisation des maps](http://www.sitepoint.com/using-sass-maps/) sur SitePoint.
+L'inévitable Kitty Giraudel propose un bon [article d'introduction à l'utilisation des maps](http://www.sitepoint.com/using-sass-maps/) sur SitePoint.
 
 Sass possède [de nombreuses fonctions](http://sass-lang.com/documentation/Sass/Script/Functions.html) vous permettant de manipuler des maps. Les listes conviennent surtout pour stocker des données assez simples tandis que les maps conviennent d'avantage au stockage de données plus complexes. Il est en général plus facile de manipuler les maps que les listes.
 
@@ -361,7 +361,7 @@ Sass possède également nativement une [liste impressionnante de fonctions](htt
 
 ##### Fonctions liées aux couleurs
 
-Une fois que vous avez établi vos variables de base pour vos couleurs, vous pouvez utilisez Sass pour en générer d'autres sur cette base. Il est préférable d'utiliser la fonction `mix` avec du noir et du blanc plutôt que d'utiliser les fonctions `lighten` et `darken` qui sont beaucoup moins fines ([Merci Hugo](http://sass-guidelin.es/#lightening-and-darkening-colors)).
+Une fois que vous avez établi vos variables de base pour vos couleurs, vous pouvez utilisez Sass pour en générer d'autres sur cette base. Il est préférable d'utiliser la fonction `mix` avec du noir et du blanc plutôt que d'utiliser les fonctions `lighten` et `darken` qui sont beaucoup moins fines ([Merci Kitty](http://sass-guidelin.es/#lightening-and-darkening-colors)).
 
 ```scss
 $color-accent: #F16C32;
@@ -841,7 +841,7 @@ $breakpoints: (
 - [Sass Basics](http://sass-lang.com/guide): une bonne petite ressource pour commencer ou si vous avez besoin de vous rafraîchir les idées
 - Sass: [site officiel](http://sass-lang.com/) et [documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html)
 - [The Sass way](http://thesassway.com/): un bon ensemble d'articles publiés concernant Sass
-- [Une impressionnante liste de ressources](https://github.com/HugoGiraudel/awesome-sass) compilée par Hugo Giraudel
-- [Sass guidelines](http://sass-guidelin.es/) Bonnes pratiques et super infos sur la structuration des projets Sass. Merci Hugo Giraudel!
-- [Three years of purging Sass](https://speakerdeck.com/hugogiraudel/three-years-of-purging-sass): Quelques astuces pour éviter les pièges en écrivant du code Sass par le désormais célèbre Hugo Giraudel.
+- [Une impressionnante liste de ressources](https://github.com/KittyGiraudel/awesome-sass) compilée par Kitty Giraudel
+- [Sass guidelines](http://sass-guidelin.es/) Bonnes pratiques et super infos sur la structuration des projets Sass. Merci Kitty Giraudel!
+- [Three years of purging Sass](https://speakerdeck.com/kittygiraudel/three-years-of-purging-sass): Quelques astuces pour éviter les pièges en écrivant du code Sass par le désormais célèbre Kitty Giraudel.
 - [Mes quelques ressources personnelles concernant Sass](https://pinboard.in/search/u:jeromecoupe/?query=sass) archivées sur Pinboard
